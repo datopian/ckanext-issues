@@ -21,7 +21,7 @@ msgstr ""
 
 #: ckanext/issues/auth.py:20
 msgid "User {0} not authorized for action on issue {1}"
-msgstr "User {0} not authorized for action on disscussion {1}"
+msgstr "User {0} not authorized for action on discussion {1}"
 
 #: ckanext/issues/auth.py:42
 msgid "User {0} not authorized for action"
@@ -29,7 +29,7 @@ msgstr ""
 
 #: ckanext/issues/auth.py:91
 msgid "User {user} not authorized for action on issue {issue}"
-msgstr "User {user} not authorized for action on disscussion {issue}"
+msgstr "User {user} not authorized for action on discussion {issue}"
 
 #: ckanext/issues/controller/controller.py:48
 msgid "Issues have not been enabled for this dataset"
@@ -54,20 +54,20 @@ msgstr ""
 
 #: ckanext/issues/controller/controller.py:77
 msgid "Please login to add a new issue"
-msgstr "Please login to add a new disscussion"
+msgstr "Please login to add a new discussion"
 
 #: ckanext/issues/controller/controller.py:86
 msgid "Not authorized to add a new issue"
-msgstr "Not authorized to add a new disscussion"
+msgstr "Not authorized to add a new discussion"
 
 #: ckanext/issues/controller/controller.py:113
 msgid "Your issue has been registered, thank you for the feedback"
-msgstr "Your disscussion has been registered, thank you for the feedback"
+msgstr "Your discussion has been registered, thank you for the feedback"
 
 #: ckanext/issues/controller/controller.py:131
 #: ckanext/issues/controller/controller.py:134
 msgid "Issue not found: {0}"
-msgstr "Disscussion not found: {0}"
+msgstr "Discussion not found: {0}"
 
 #: ckanext/issues/controller/controller.py:178
 msgid "Invalid request"
@@ -83,19 +83,19 @@ msgstr ""
 
 #: ckanext/issues/controller/controller.py:215
 msgid "Issue closed"
-msgstr "Disscussion closed"
+msgstr "Discussion closed"
 
 #: ckanext/issues/controller/controller.py:217
 msgid "Issue re-opened"
-msgstr "Disscussion re-opened
+msgstr "Discussion re-opened
 
 #: ckanext/issues/controller/controller.py:255
 msgid "Unauthorized to delete issue {0}"
-msgstr "Unauthorized to delete disscussion {0}"
+msgstr "Unauthorized to delete discussion {0}"
 
 #: ckanext/issues/controller/controller.py:260
 msgid "Issue {0} has been deleted."
-msgstr "Disscussion {0} has been deleted."
+msgstr "Discussion {0} has been deleted."
 
 #: ckanext/issues/controller/controller.py:278
 msgid "User {0} does not exist"
@@ -125,15 +125,15 @@ msgstr ""
 
 #: ckanext/issues/controller/controller.py:337
 msgid "Issue is visible."
-msgstr "Disscussion is visible."
+msgstr "Discussion is visible."
 
 #: ckanext/issues/controller/controller.py:339
 msgid "Issue is invisible to normal users."
-msgstr "Disscussion is invisible to normal users."
+msgstr "Discussion is invisible to normal users."
 
 #: ckanext/issues/controller/controller.py:342
 msgid "Issue reported to an administrator"
-msgstr "Disscussion reported to an administrator"
+msgstr "Discussion reported to an administrator"
 
 #: ckanext/issues/controller/controller.py:358
 msgid "You must be logged in to report comments"
@@ -153,7 +153,7 @@ msgstr ""
 
 #: ckanext/issues/controller/controller.py:402
 msgid "Issue report cleared"
-msgstr "Disscussion report cleared"
+msgstr "Discussion report cleared"
 
 #: ckanext/issues/controller/controller.py:407
 msgid "You must be logged in clear abuse reports"
@@ -183,11 +183,11 @@ msgstr ""
 
 #: ckanext/issues/controller/moderation.py:29
 msgid "Issue permanently hidden"
-msgstr "Disscussion permanently hidden"
+msgstr "Discussion permanently hidden"
 
 #: ckanext/issues/controller/moderation.py:33
 msgid "All issue reports cleared"
-msgstr "All disscussion reports cleared"
+msgstr "All discussion reports cleared"
 
 #: ckanext/issues/controller/moderation.py:81
 msgid "You must be logged in to moderate comment"
@@ -211,15 +211,15 @@ msgstr ""
 
 #: ckanext/issues/logic/action/action.py:63
 msgid "Issue does not exist"
-msgstr "Disscussion does not exist"
+msgstr "Discussion does not exist"
 
 #: ckanext/issues/logic/action/action.py:83
 msgid "Issue marked as spam/abuse"
-msgstr "Disscussion marked as spam/abuse"
+msgstr "Discussion marked as spam/abuse"
 
 #: ckanext/issues/logic/action/action.py:554
 msgid "Issue has already been reported by this user"
-msgstr "Disscussion has already been reported by this user"
+msgstr "Discussion has already been reported by this user"
 
 #: ckanext/issues/logic/validators/validators.py:13
 msgid "{0} is not a valid status"
@@ -241,11 +241,11 @@ msgstr ""
 #: ckanext/issues/logic/validators/validators.py:65
 #: ckanext/issues/logic/validators/validators.py:78
 msgid "Issue not found"
-msgstr "Disscussion not found"
+msgstr "Discussion not found"
 
 #: ckanext/issues/logic/validators/validators.py:87
 msgid "Issue Comment not found"
-msgstr "Disscussion Comment not found"
+msgstr "Discussion Comment not found"
 
 #: ckanext/issues/public/scripts/autocomplete-action-api.js:31
 msgid "No matches found"
@@ -263,7 +263,7 @@ msgstr ""
 #: ckanext/issues/templates/issues/add.html:5
 #: ckanext/issues/templates/issues/dataset.html:22
 msgid "New Issue"
-msgstr "New Disscussion"
+msgstr "New Discussion"
 
 #: ckanext/issues/templates/issues/add.html:16
 #: ckanext/issues/templates/issues/edit.html:14
@@ -306,7 +306,7 @@ msgstr ""
 
 #: ckanext/issues/templates/issues/base_form_page.html:14
 msgid "What are issues?"
-msgstr "What are disscussions?"
+msgstr "What are discussions?"
 
 #: ckanext/issues/templates/issues/base_form_page.html:16
 msgid " <p>Issues are ... .</p> "
@@ -354,24 +354,24 @@ msgstr "Disscussions"
 #: ckanext/issues/templates/issues/dataset.html:26
 #: ckanext/issues/templates/issues/organization_issues.html:27
 msgid "Search issues..."
-msgstr "Search disscussions..."
+msgstr "Search discussions..."
 
 #: ckanext/issues/templates/issues/dataset.html:28
 #: ckanext/issues/templates/issues/organization_issues.html:29
 #: ckanext/issues/templates/snippets/search_result_text.html:44
 msgid "{number} issue found"
 msgid_plural "{number} issues found"
-msgstr[0] "{number} disscussion found"
-msgstr[1] "{number} disscussions found"
+msgstr[0] "{number} discussion found"
+msgstr[1] "{number} discussions found"
 
 #: ckanext/issues/templates/issues/dataset.html:38
 msgid "No issues"
-msgstr "No disscussions"
+msgstr "No discussions"
 
 #: ckanext/issues/templates/issues/edit.html:3
 #: ckanext/issues/templates/issues/edit.html:5
 msgid "Edit Issue"
-msgstr "Edit Disscussion"
+msgstr "Edit Discussion"
 
 #: ckanext/issues/templates/issues/edit.html:36
 msgid "Update"
@@ -413,7 +413,7 @@ msgstr ""
 
 #: ckanext/issues/templates/issues/show.html:256
 msgid "This issue has been assigned to an administrator for the publisher"
-msgstr "This disscussion has been assigned to an administrator for the publisher"
+msgstr "This discussion has been assigned to an administrator for the publisher"
 
 #: ckanext/issues/templates/issues/show.html:258
 msgid "No one"
@@ -497,21 +497,21 @@ msgstr ""
 
 #: ckanext/issues/templates/snippets/search_result_text.html:40
 msgid "{number} issue found for \"{query}\""
-msgstr "{number} disscussion found for \"{query}\""
+msgstr "{number} discussion found for \"{query}\""
 
 #: ckanext/issues/templates/snippets/search_result_text.html:41
 msgid "{number} issues found for \"{query}\""
-msgstr "{number} disscussions found for \"{query}\""
+msgstr "{number} discussions found for \"{query}\""
 
 #: ckanext/issues/templates/snippets/search_result_text.html:43
 msgid "No issues found for \"{query}\""
-msgstr "No disscussions found for \"{query}\""
+msgstr "No discussions found for \"{query}\""
 
 #: ckanext/issues/templates/snippets/search_result_text.html:45
 msgid "{number} issues found"
-msgstr "{number} disscussions found"
+msgstr "{number} discussions found"
 
 #: ckanext/issues/templates/snippets/search_result_text.html:47
 msgid "No issues found"
-msgstr "No disscussions found"
+msgstr "No discussions found"
 

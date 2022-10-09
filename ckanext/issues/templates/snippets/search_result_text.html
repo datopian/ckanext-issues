@@ -44,7 +44,7 @@ Example:
   {% set number_issues_found = _('{number} issue found')%}
   {% set number_issues_fount_pl = _('{number} issues found')%}
   {% set text_no_query = ungettext(number_issues_found, number_issues_fount_pl, count) %}
-  {% set text_no_query_none = _('No issues found') %}
+  {% set text_no_query_none = _(' ') %}
 
 {% else %}
   {% set text_query_singular = '{number} ' + type + ' found for "{query}"' %}

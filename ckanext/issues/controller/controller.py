@@ -126,10 +126,10 @@ class IssueController(BaseController):
             extra_vars = show.show(issue_number,
                                    dataset_id,
                                    session=model.Session)
-        except toolkit.ValidationError, e:
+        except toolkit.ValidationError as e:
             p.toolkit.abort(
                 404, toolkit._('Issue not found: {0}'.format(e.error_summary)))
-        except toolkit.ObjectNotFound, e:
+        except toolkit.ObjectNotFound as e:
             p.toolkit.abort(
                 404, toolkit._('Issue not found: {0}'.format(e)))
         extra_vars['dataset'] = dataset
@@ -160,7 +160,7 @@ class IssueController(BaseController):
                 return p.toolkit.redirect_to('issues_show',
                                              issue_number=issue_number,
                                              dataset_id=dataset_id)
-            except p.toolkit.ValidationError, e:
+            except p.toolkit.ValidationError as e:
                 errors = e.error_dict
                 return p.toolkit.render(
                     'issues/edit.html',
@@ -169,7 +169,7 @@ class IssueController(BaseController):
                         'errors': errors,
                     },
                 )
-            except p.toolkit.NotAuthorized, e:
+            except p.toolkit.NotAuthorized as e:
                 p.toolkit.abort(401, e.message)
 
     def comments(self, dataset_id, issue_number):
@@ -234,7 +234,7 @@ class IssueController(BaseController):
         self._before_dataset(dataset_id)
         try:
             extra_vars = issues_for_dataset(dataset_id, request.GET)
-        except toolkit.ValidationError, e:
+        except toolkit.ValidationError as e:
             _dataset_handle_error(dataset_id, e)
         return render("issues/dataset.html", extra_vars=extra_vars)
 
@@ -308,7 +308,7 @@ class IssueController(BaseController):
                 msg = _('Unauthorized to assign users to issue'.format(
                     issue_number))
                 toolkit.abort(401, msg)
-            except toolkit.ValidationError, e:
+            except toolkit.ValidationError as e:
                 toolkit.abort(404)
 
         return p.toolkit.redirect_to('issues_show',
@@ -344,7 +344,7 @@ class IssueController(BaseController):
                 toolkit.abort(404)
             except toolkit.ObjectNotFound:
                 toolkit.abort(404)
-            except ReportAlreadyExists, e:
+            except ReportAlreadyExists as e:
                 h.flash_error(e.message)
 
             p.toolkit.redirect_to('issues_show',
@@ -384,7 +384,7 @@ class IssueController(BaseController):
                 toolkit.abort(404)
             except toolkit.ObjectNotFound:
                 toolkit.abort(404)
-            except ReportAlreadyExists, e:
+            except ReportAlreadyExists as e:
                 h.flash_error(e.message)
             p.toolkit.redirect_to('issues_show', dataset_id=dataset_id,
                                   issue_number=issue_number)
@@ -443,7 +443,7 @@ class IssueController(BaseController):
         self._before_org(org_id)
         try:
             template_params = issues_for_org(org_id, request.GET)
-        except toolkit.ValidationError, e:
+        except toolkit.ValidationError as e:
             msg = toolkit._("Validation error: {0}".format(e.error_summary))
             log.warning(msg + ' - Issues for org: %s', org_id)
             h.flash(msg, category='alert-error')
