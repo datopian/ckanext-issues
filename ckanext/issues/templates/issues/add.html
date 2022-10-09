@@ -14,11 +14,11 @@
     {% if c.error_summary | count %}
       <div class="alert alert-error error-explanation">
         <p>{{ _('The form contains invalid entries:') }}</p>
-        <ul>
-set           {% for key, error in c.error_summary.items() %}
-            <li>{{ key }}: {{ error[0] }}</li>
+        <ol>
+           {% for key, error in c.error_summary.items() %}
+            <li>{{ key  | capitalize }}: {{ error[0] }}</li>
           {% endfor %}
-        </ul>
+        </ol>
       </div>
     {% endif %}
   {% endblock %}
