@@ -6,14 +6,16 @@ log = getLogger(__name__)
 
 import ckan.plugins as p
 from ckan.plugins import implements, toolkit
+from ckan.lib.plugins import DefaultTranslation
 
 # Imports are done in methods to speed up paster.
 # Please don't move back up to here.
 
-class IssuesPlugin(p.SingletonPlugin):
+class IssuesPlugin(p.SingletonPlugin, DefaultTranslation):
     """
     CKAN Issues Extension
     """
+    implements(p.ITranslation)
     implements(p.IConfigurer, inherit=True)
     implements(p.ITemplateHelpers, inherit=True)
     implements(p.IRoutes, inherit=True)

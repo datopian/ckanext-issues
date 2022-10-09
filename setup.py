@@ -30,5 +30,17 @@ setup(
 
     [paste.paster_command]
     issues = ckanext.issues.commands:Issues
+
+    [babel.extractors]
+    ckan = ckan.lib.extract:extract_ckan
 	""",
+
+	message_extractors={
+	'ckanext': [
+		('**.py', 'python', None),
+		('**.js', 'javascript', None),
+		('**/templates/**.html', 'ckan', None),
+	]}
 )
+
+

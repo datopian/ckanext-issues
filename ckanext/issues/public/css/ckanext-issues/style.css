@@ -106,6 +106,18 @@
   text-decoration: none;
 }
 
+#issue-comment-form .form-actions{
+  margin-top: 15px;
+}
+
+#ckanext-issues-assign {
+  padding: 10px;
+}
+
+#ckanext-issues-assignee {
+  padding-left: 14px;
+}
+
 .issue-comment-action {
   margin-top: 8px;
   padding-left: 5px;
@@ -133,6 +145,7 @@
 
 .issue-comment-new .form-actions {
   margin: 0;
+  margin-top: 30px;
   padding: 0;
 }
 

@@ -72,7 +72,7 @@
                 <td>{% if issue.resolved %}<span title="Closed by {{issue.resolver}} on {{issue.resolved}}">closed</span>{% else %}open{% endif %}</td>
                 <td>
                   {% if issue.comment_count %}
-                    <i class="icon-comments"></i>
+                    <i class="fa fa-comments"></i>
                     {{ _('%s comments') % (issue.comment_count) }}
                   {% endif %}
                 </td>
