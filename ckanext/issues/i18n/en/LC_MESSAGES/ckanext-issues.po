@@ -310,7 +310,7 @@ msgstr "What are discussions?"
 
 #: ckanext/issues/templates/issues/base_form_page.html:16
 msgid " <p>Issues are ... .</p> "
-msgstr " <p>Disscussions are ... .</p> "
+msgstr " <p>Discussions is a collaborative communication forum for the dataset issues.</p> "
 
 #: ckanext/issues/templates/issues/comment_moderation.html:8
 #: ckanext/issues/templates/issues/moderation.html:8
