@@ -244,44 +244,6 @@ endfor %}">
       <div class="nums" />
     </div>
   </div>
-  <h2 class="module-heading">
-    <i class="icon-medium fa fa-user"></i>
-    Assignee
-  </h2>
-  <div id='ckanext-issues-assignee'>
-    {% if issue.assignee %}
-      {{ h.gravatar((issue.assignee.email_hash), size=22) }}
-      {{ issue.assignee.name }}
-    {% elif issue.assignee_id %}
-      {{ _('This issue has been assigned to an administrator for the publisher') }}
-    {% else %}
-      {{ _('No one') }}
-    {% endif %}
-  </div>
-  {% block assignee_form %}
-    {% if is_publisher %}
-    <h2 class="module-heading">
-      <i class="icon-medium fa fa-edit"></i>
-      Change Assignee
-    </h2>
-    <form id='ckanext-issues-assign' class="dataset-form form-horizontal add-member-form" method='post' action="{{ h.url_for('issues_assign', issue_number=issue.number, dataset_id=dataset.id) }}">
-        <div class="controls">
-          <input id="assignee" type="text" name="assignee" placeholder="Username"
-          value="" class="control-medium" data-module="autocomplete-action-api"
-          {% if dataset['owner_org'] %}
-          data-module-source="/api/3/action/organization_users_autocomplete?organization_id={{ dataset['owner_org']}}&q=?">
-          {% else %}
-          data-module-source="/api/3/action/user_autocomplete?q=?">
-          {% endif %}
-        </div>
-        <div>
-          <button class="btn btn-success btn-mini" type="submit" name="assign">
-            {{ _('Assign') }}
-          </button>
-        </div>
-      </form>
-     {% endif %}
-  {% endblock %}
   </div>
 </div>
 {% endblock %}
