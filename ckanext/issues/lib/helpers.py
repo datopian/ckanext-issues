@@ -8,7 +8,7 @@ from ckan.lib import helpers
 from ckanext.issues.model import IssueFilter
 from ckanext.issues import model as issuemodel
 
-ISSUES_PER_PAGE = (15, 30, 50)
+ISSUES_PER_PAGE = (50, 100, 150)
 
 log = __import__('logging').getLogger(__name__)
 

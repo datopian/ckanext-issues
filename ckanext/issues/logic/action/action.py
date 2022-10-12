@@ -12,6 +12,8 @@ import ckanext.issues.model as issuemodel
 from ckanext.issues.logic import schema
 from ckanext.issues.exception import ReportAlreadyExists
 from ckanext.issues.lib.helpers import get_issue_subject, get_site_title
+from ckan.logic.schema import default_create_activity_schema
+
 try:
     import ckan.authz as authz
 except ImportError:
@@ -20,10 +22,46 @@ except ImportError:
 from pylons import config
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import desc
+from ckanext.issues.validators import object_id_validator, activity_type_exists
+get_validator = p.toolkit.get_validator
+not_missing = get_validator('not_missing')
+not_empty = get_validator('not_empty')
+ignore_empty = get_validator('ignore_empty')
+unicode_safe = get_validator('unicode_safe')
 
 _get_or_bust = logic.get_or_bust
 
 log = logging.getLogger(__name__)
+
+def _create_issues_activity(context, object_id, activity_type, data):
+    user = context['user']
+    user_obj = model.User.get(user)
+    activit_schema= default_create_activity_schema()
+    activit_schema.update({
+        'object_id': [ not_missing, not_empty, unicode_safe, object_id_validator],
+        'activity_type': [not_missing, not_empty, unicode_safe,
+                          activity_type_exists],
+    })
+
+    activity_create_context = {
+        'model': model,
+        'user': user,
+        'ignore_auth': True,
+        'session': model.Session,
+        'schema': activit_schema
+    }
+
+    data.update({
+        'package': logic.get_action('package_show')({'model': model, 'ignore_auth': True}, {'id': object_id}),
+    })
+    
+    activity_dict = {
+        'user_id': user_obj.id,
+        'object_id': object_id,
+        'activity_type': activity_type,
+        'data': data
+    }
+    logic.get_action('activity_create')(activity_create_context, activity_dict)
 
 
 def _add_reports(obj, can_edit, current_user):
@@ -210,10 +248,11 @@ def issue_create(context, data_dict):
                           user_obj.email, len(recipients) - 1, body)
             try:
                 mailer.mail_user(user_obj, subject, body)
-            except (mailer.MailerException, TypeError), e:
+            except (mailer.MailerException, TypeError) as e:
                 # TypeError occurs when we're running command from ckanapi
                 log.debug(e.message)
 
+    _create_issues_activity(context, dataset.id, 'new issue', issue.as_dict())
     log.debug('Created issue %s (%s)' % (issue.title, issue.id))
     return issue.as_dict()
 
@@ -257,6 +296,8 @@ def issue_update(context, data_dict):
             setattr(issue, k, v)
 
     if status_change:
+        activity_type = 'issue closed' if data_dict.get('status') == 'closed' else 'issue reopened'
+        _create_issues_activity(context, data_dict['dataset_id'], activity_type, issue.as_dict())
         if data_dict['status'] == issuemodel.ISSUE_STATUS.closed:
             issue.resolved = datetime.now()
             user = context['user']
@@ -292,7 +333,7 @@ def issue_delete(context, data_dict):
         session=session
     )
     if not issue:
-        raise toolkit.ObjectNotFound(
+        raise p.toolkit.ObjectNotFound(
             '{issue_number} for dataset {dataset_id} was not found.'.format(
                 issue_number=issue_number,
                 dataset_id=dataset_id,
@@ -300,6 +341,8 @@ def issue_delete(context, data_dict):
         )
     session.delete(issue)
     session.commit()
+    _create_issues_activity(context, dataset_id, 'issue deleted', issue.as_dict())
+
 
 
 @p.toolkit.side_effect_free
@@ -476,9 +519,15 @@ def issue_comment_create(context, data_dict):
             user_obj = model.User.get(recipient['user_id'])
             try:
                 mailer.mail_user(user_obj, subject, body)
-            except (mailer.MailerException, TypeError), e:
+            except (mailer.MailerException, TypeError) as e:
                 # TypeError occurs when we're running command from ckanapi
                 log.debug(e.message)
+    issue_comment_dict =  issue_comment.as_dict() 
+    issue_comment_dict.update({
+            'dataset_id': data_dict['dataset_id'],
+        })
+
+    _create_issues_activity(context, data_dict['dataset_id'], 'changed issue', issue_comment_dict)
 
     log.debug('Created issue comment %s' % (issue.id))
     return issue_comment.as_dict()

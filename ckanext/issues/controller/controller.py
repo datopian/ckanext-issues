@@ -26,7 +26,7 @@ log = getLogger(__name__)
 
 AUTOCOMPLETE_LIMIT = 10
 VALID_CATEGORY = re.compile(r"[0-9a-z\-\._]+")
-ISSUES_PER_PAGE = (15, 30, 50)
+ISSUES_PER_PAGE = (40, 60, 80)
 
 
 class IssueController(BaseController):
@@ -110,8 +110,7 @@ class IssueController(BaseController):
                 issue_dict = logic.get_action('issue_create')(
                     data_dict=data_dict
                 )
-                h.flash_success(_('Your issue has been registered, '
-                                  'thank you for the feedback'))
+                h.flash_success(_('Your discussion thread has been created'))
                 p.toolkit.redirect_to(
                     'issues_show',
                     dataset_id=dataset_dict['name'],

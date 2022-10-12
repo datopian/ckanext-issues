@@ -87,7 +87,7 @@ msgstr "Discussion closed"
 
 #: ckanext/issues/controller/controller.py:217
 msgid "Issue re-opened"
-msgstr "Discussion re-opened
+msgstr "Discussion re-opened"
 
 #: ckanext/issues/controller/controller.py:255
 msgid "Unauthorized to delete issue {0}"
@@ -389,7 +389,7 @@ msgstr[1] ""
 
 #: ckanext/issues/templates/issues/show.html:208
 msgid "Are you sure you want to delete this issue?"
-msgstr ""
+msgstr "Are you sure you want to delete this discussion?"
 
 #: ckanext/issues/templates/issues/show.html:209
 msgid "Delete"

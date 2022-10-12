@@ -12,14 +12,14 @@
 }
 
 .issue-header .header-number {
-  color: #aaa;
+  color: #575757;
 }
 
 .issue-header-meta {
   margin-top: 9px;
   font-size: 14px;
   line-height: 28px;
-  color: #777;
+  color: #575757;
   padding-bottom: 20px;
   border-bottom: 1px solid #eee;
 }
@@ -35,7 +35,7 @@
 }
 
 .issue-header-status.open {
-  background-color: #6cc644;
+  background-color: #32631D;
 }
 
 .issue-header-status.closed {
@@ -127,6 +127,15 @@
   max-width: 78%;
   padding-top: 10px;
   padding-bottom: 10px;
+  color: #545454;
+}
+
+#issue-not-abuse-button button {
+  color: #4F4F4F;
+}
+
+.issue-comment-content.issue-abuse {
+  color: #575757;
 }
 
 .issue-comment-content {
@@ -156,6 +165,7 @@
     font-size: 12px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 3px;
+    color: #545454;
 }
 
 .issue-abuse {

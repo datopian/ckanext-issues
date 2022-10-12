@@ -55,8 +55,7 @@ def issue_comment_create(context, data_dict):
     return {'success': True}
     # return issue_auth(context, data_dict, 'package_create')
 
-
-@p.toolkit.auth_disallow_anonymous_access
+@p.toolkit.auth_allow_anonymous_access
 def issue_update(context, data_dict):
     '''Checks that we can update the issue.
 
@@ -78,11 +77,11 @@ def issue_update(context, data_dict):
     if not issue:
         return {'success': False}
     user_obj = model.User.get(user)
-    if ((issue.user_id == user_obj.id)  # we're the creator
-       and  # we are not trying to change status
-       not (data_dict.get('status')
-            and (issue.status != data_dict['status']))):
+
+    # Allow if user is creator of the issue
+    if issue.user_id == user_obj.id:
         return {'success': True}
+
     # all other cases not allowed
     return {
         'success': False,
