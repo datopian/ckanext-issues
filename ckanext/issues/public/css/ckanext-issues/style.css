@@ -130,7 +130,9 @@
   color: #545454;
 }
 
-#issue-not-abuse-button button {
+#issue-not-abuse-button button,
+#issue-report-form button,
+#issue-comment-report-abuse-form button {
   color: #4F4F4F;
 }
 
