@@ -52,7 +52,8 @@ def unresolved_count_for_organization(org):
     return model.Session.execute(q).scalar()
 
 
-# activity create functions
+# patch imported on ckan core "ckan/lib/activity_streams", plase check patch file.
+# https://github.com/ckan/ckan/blob/ckan-2.8.2/ckan/lib/activity_streams.py#L123-L190
 def get_snippet_issue(activity, detail):
 
     if activity['activity_type'] in ['issue closed', 'issue reopened']:
