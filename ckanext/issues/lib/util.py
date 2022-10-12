@@ -1,3 +1,4 @@
+import json
 import ckanext.issues.model as issue_model
 import ckan.model as model
 import ckan.plugins.toolkit as tk
@@ -53,7 +54,18 @@ def unresolved_count_for_organization(org):
 
 # activity create functions
 def get_snippet_issue(activity, detail):
-    issue_id = activity['data'].get('id', 'issue_id')
+
+    if activity['activity_type'] in ['issue closed', 'issue reopened']:
+        issue_id = activity['data'].get('number')
+    elif activity['activity_type'] == 'new issue':
+        issue_id = activity['data'].get('id')
+    elif activity['activity_type'] == 'changed issue':
+        issue_id = activity['data'].get('issue_id')
+    elif activity['activity_type'] == 'issue deleted':
+        return 'a'
+    else:
+        return 'a'
+
     dataset_id = activity['data']['dataset_id']
     issue_dict =  tk.get_action('issue_show')({'ignore_auth': True}, 
                     {'issue_number': issue_id, 'dataset_id': dataset_id})
