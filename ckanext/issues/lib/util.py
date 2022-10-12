@@ -54,8 +54,6 @@ def unresolved_count_for_organization(org):
 # activity create functions
 def get_snippet_issue(activity, detail):
     issue_id = activity['data'].get('id', 'issue_id')
-    print(issue_id)
-    issue_id = 24
     dataset_id = activity['data']['dataset_id']
     issue_dict =  tk.get_action('issue_show')({'ignore_auth': True}, 
                     {'issue_number': issue_id, 'dataset_id': dataset_id})
