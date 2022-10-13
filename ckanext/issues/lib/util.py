@@ -66,12 +66,15 @@ def get_snippet_issue(activity, detail):
         return 'a'
     else:
         return 'a'
-
-    dataset_id = activity['data']['dataset_id']
-    issue_dict =  tk.get_action('issue_show')({'ignore_auth': True}, 
-                    {'issue_number': issue_id, 'dataset_id': dataset_id})
-    url = h.url_for('issues_show', dataset_id=dataset_id, issue_number=issue_id)
-    return  '<a href="%s">%s</a>' % (url, issue_dict['title'][0:30])
+    try:
+        dataset_id = activity['data']['dataset_id']
+        issue_dict =  tk.get_action('issue_show')({'ignore_auth': True}, 
+                        {'issue_number': issue_id, 'dataset_id': dataset_id})
+        url = h.url_for('issues_show', dataset_id=dataset_id, issue_number=issue_id)
+        return  '<a href="%s">%s</a>' % (url, issue_dict['title'][0:30])
+    except:
+        # Log simple activity if the issue_id is not found
+        return 'a'
 
 def activity_stream_string_issue_change(context, activity):
     return _("{actor} commented in {issue} dicussion")
