@@ -77,17 +77,17 @@ def get_snippet_issue(activity, detail):
         return 'a'
 
 def activity_stream_string_issue_change(context, activity):
-    return _("{actor} commented in {issue} dicussion")
+    return _("{actor} commented on {issue} discussion")
 
 def activity_stream_string_new_issue(context, activity):
-    return _("{actor} started new discussion in the dataset {dataset}")
+    return _("{actor} started a new discussion on the dataset {dataset}")
 
 def activity_stream_string_deleted_issue(context, activity):
-    return _("{actor} deleted {issue} discussion in the dataset {dataset}")
+    return _("{actor} deleted {issue} discussion on the dataset {dataset}")
 
 def activity_stream_string_issue_closed(context, activity):
-    return _("{actor} closed {issue} in the dataset {dataset}")
+    return _("{actor} closed {issue} on the dataset {dataset}")
 
 def activity_stream_string_issue_reopened(context, activity):
-    return _("{actor} reopened {issue} in the dataset {dataset}")
+    return _("{actor} reopened {issue} on the dataset {dataset}")
 

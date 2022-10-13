@@ -79,8 +79,9 @@ def issue_update(context, data_dict):
     user_obj = model.User.get(user)
 
     # Allow if user is creator of the issue
-    if issue.user_id == user_obj.id:
-        return {'success': True}
+    if user_obj:
+        if issue.user_id == user_obj.id:
+            return {'success': True}
 
     # all other cases not allowed
     return {

@@ -34,6 +34,8 @@ _get_or_bust = logic.get_or_bust
 log = logging.getLogger(__name__)
 
 def _create_issues_activity(context, object_id, activity_type, data):
+    if context.get('ignore_activity_creation', False):
+        return
     user = context['user']
     user_obj = model.User.get(user)
     activit_schema= default_create_activity_schema()

@@ -210,6 +210,8 @@ class IssueController(BaseController):
                 'status': status
                 }
             logic.get_action('issue_update')(self.context, issue_dict)
+            self.context.update({'ignore_activity_creation': True})
+
             if 'close' in request.POST:
                 h.flash_success(_("Issue closed"))
             else:
