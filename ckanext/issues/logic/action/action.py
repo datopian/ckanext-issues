@@ -524,9 +524,10 @@ def issue_comment_create(context, data_dict):
             except (mailer.MailerException, TypeError) as e:
                 # TypeError occurs when we're running command from ckanapi
                 log.debug(e.message)
-    issue_comment_dict =  issue_comment.as_dict() 
+    issue_comment_dict =  issue_comment.as_dict()
     issue_comment_dict.update({
             'dataset_id': data_dict['dataset_id'],
+            'issue_number': data_dict['issue_number'],
         })
 
     _create_issues_activity(context, data_dict['dataset_id'], 'changed issue', issue_comment_dict)

@@ -61,15 +61,24 @@ def get_snippet_issue(activity, detail):
     elif activity['activity_type'] == 'new issue':
         issue_id = activity['data'].get('id')
     elif activity['activity_type'] == 'changed issue':
-        issue_id = activity['data'].get('issue_id')
+        issue_id = activity['data'].get('issue_number')
     elif activity['activity_type'] == 'issue deleted':
         return 'a'
     else:
         return 'a'
     try:
         dataset_id = activity['data']['dataset_id']
-        issue_dict =  tk.get_action('issue_show')({'ignore_auth': True}, 
-                        {'issue_number': issue_id, 'dataset_id': dataset_id})
+        if activity['activity_type'] == 'changed issue':
+            try:
+                issue_dict =  tk.get_action('issue_show')({'ignore_auth': True}, 
+                                {'issue_number': issue_id, 'dataset_id': dataset_id})
+            except:
+                issue_id = activity['data'].get('issue_id')
+                issue_dict =  tk.get_action('issue_show')({'ignore_auth': True}, 
+                                {'issue_number':  activity['data'].get('issue_id'), 'dataset_id': dataset_id})
+        else:
+            issue_dict =  tk.get_action('issue_show')({'ignore_auth': True}, 
+                            {'issue_number': issue_id, 'dataset_id': dataset_id})
         url = h.url_for('issues_show', dataset_id=dataset_id, issue_number=issue_id)
         return  '<a href="%s">%s</a>' % (url, issue_dict['title'][0:30])
     except:
