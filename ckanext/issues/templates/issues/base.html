@@ -12,3 +12,8 @@
   <li><a href="{{ h.url_for('issues.dataset', dataset_id=g.pkg.name) }}">{{_('Issues')}}</a></li>
   <li class="active">{% block breadcrumb_item %}{% endblock %}</li>
 {% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% asset 'issues/visualize_main_style' %}
+{% endblock %}

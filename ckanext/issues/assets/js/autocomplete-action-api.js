@@ -24,7 +24,7 @@ this.ckan.module('autocomplete-action-api', function (jQuery, _) {
       label: false,
       items: 10,
       source: null,
-      interval: 1000,
+      interval: 200,
       dropdownClass: '',
       containerClass: '',
       i18n: {
@@ -53,7 +53,7 @@ this.ckan.module('autocomplete-action-api', function (jQuery, _) {
      */
     setupAutoComplete: function () {
       var settings = {
-        width: 'resolve',
+        width:' 100%',
         formatResult: this.formatResult,
         formatNoMatches: this.formatNoMatches,
         formatInputTooShort: this.formatInputTooShort,
