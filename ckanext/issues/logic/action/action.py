@@ -13,6 +13,9 @@ from ckanext.issues.logic import schema
 from ckanext.issues.exception import ReportAlreadyExists
 from ckanext.issues.lib.helpers import get_issue_subject, get_site_title
 from ckan.logic.schema import default_create_activity_schema
+import ckan.lib.dictization.model_dictize as model_dictize
+import ckan.lib.activity_streams as activity_streams
+
 
 try:
     import ckan.authz as authz
@@ -824,3 +827,22 @@ def issue_comment_search(context, data_dict):
         comments.append(comment_dict)
 
     return comments
+
+@p.toolkit.side_effect_free
+def issue_comment_activity_list_html(context, data_dict):
+    offset = int(data_dict.get('offset', 0))
+    limit = data_dict.get('limit', 10)
+    q = model.Session.query(model.Activity)
+    q = q.filter(model.Activity.activity_type == u'changed issue')
+    _activity_objects = model.activity._activities_at_offset(q, limit, offset)
+    activity_objects = model_dictize.activity_list_dictize(_activity_objects, context)
+    
+    extras = {
+        'action': 'activity',
+        'controller': 'issue_comment',
+        'action': 'activity',
+        'offset': offset,
+        'default_limit': 5,
+        'is_issue_activity': True,
+    }
+    return activity_streams.activity_list_to_html(context, activity_objects, extras)
