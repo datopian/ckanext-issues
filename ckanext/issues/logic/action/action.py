@@ -5,7 +5,7 @@ import ckan.logic as logic
 import ckan.plugins as p
 import ckan.model as model
 from ckan.lib import mailer
-from ckan.lib.base import render_jinja2
+from ckan.lib.base import render
 from ckan.logic import validate
 import ckan.lib.helpers as h
 import ckanext.issues.model as issuemodel
@@ -156,14 +156,14 @@ def _get_issue_email_body(issue, issue_subject, user_obj, recipient):
     extra_vars = _get_issue_vars(issue, issue_subject, user_obj, recipient)
     # Would use p.toolkit.render, but it mucks with response and other things,
     # which is unnecessary, and p.toolkit.render_text uses genshi...
-    return render_jinja2('issues/email/new_issue.html', extra_vars=extra_vars)
+    return render('issues/email/new_issue.html', extra_vars=extra_vars)
 
 
 def _get_comment_email_body(comment, issue_subject, user_obj, recipient):
     extra_vars = _get_issue_vars(comment.issue, issue_subject, user_obj,
                                  recipient)
     extra_vars['comment'] = comment
-    return render_jinja2('issues/email/new_comment.html',
+    return render('issues/email/new_comment.html',
                          extra_vars=extra_vars)
 
 
