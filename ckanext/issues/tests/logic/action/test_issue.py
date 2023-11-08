@@ -70,7 +70,7 @@ class TestIssueNewWithEmailing(object):
 
         # mock the render as it is easier to look at the variables passed in
         # than the rendered text
-        with mock.patch('ckanext.issues.logic.action.action.render_jinja2') \
+        with mock.patch('ckanext.issues.logic.action.action.render') \
                 as render_mock:
             issue_create_result = toolkit.get_action('issue_create')(
                 context={'user': creator['name']},
@@ -233,7 +233,7 @@ class TestIssueComment(object):
 
         # mock the render as it is easier to look at the variables passed in
         # than the rendered text
-        with mock.patch('ckanext.issues.logic.action.action.render_jinja2') \
+        with mock.patch('ckanext.issues.logic.action.action.render') \
                 as render_mock:
             helpers.call_action(
                 'issue_comment_create',
