@@ -6,7 +6,7 @@ on:
     branches: master
 
 env:
-  CKANVERSION: ckan-2.9.1
+  CKANVERSION: ckan-2.10.1
 jobs:
   code_quality:
     runs-on: ubuntu-latest
@@ -76,6 +76,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
           pip install pytest-ckan
+          pip install mock==2.0.0
       - name: Setup CKAN
         env:
           PGPASSWORD: postgres
