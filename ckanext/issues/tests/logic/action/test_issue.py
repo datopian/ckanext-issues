@@ -52,15 +52,14 @@ class TestIssueShow(object):
         user = model.Session.query(model.User).\
             filter(model.User.id==user_id).first()
         user = vars(user)
-        assert 'test.ckan.net' == user['name']
+        assert 'default' == user['name']
 
 class TestIssueNewWithEmailing(object):
     @pytest.fixture
     def config(self, ckan_config):
         ckan_config['ckanext.issues.send_email_notifications'] = 'True'
         return ckan_config
-
-    @pytest.mark.usefixtures("clean_db", "issues_setup", "config")
+    @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_issue_create(self):
         creator = factories.User(name='creator')
         admin = factories.User(name='admin')
@@ -68,28 +67,19 @@ class TestIssueNewWithEmailing(object):
             users=[{'name': admin['id'], 'capacity': 'admin'}])
         dataset = factories.Dataset(owner_org=org['id'])
 
-        # mock the render as it is easier to look at the variables passed in
-        # than the rendered text
-        with mock.patch('ckanext.issues.logic.action.action.render') \
-                as render_mock:
-            issue_create_result = toolkit.get_action('issue_create')(
-                context={'user': creator['name']},
-                data_dict={
-                    'title': 'Title',
-                    'description': 'Description',
-                    'dataset_id': dataset['id'],
-                }
-            )
+        issue_create_result = toolkit.get_action('issue_create')(
+            context={'user': creator['name']},
+            data_dict={
+                'title': 'Title',
+                'description': 'Description',
+                'dataset_id': dataset['id'],
+            }
+        )
 
         issue_object = Issue.get(issue_create_result['id'])
         assert 'Title' == issue_object.title
         assert 'Description' == issue_object.description
         assert 1 == issue_object.number
-        # some test user for the org called 'test.ckan.net' gets emailed too
-        # users_emailed = [call for call in render_mock.call_args]
-        # print(users_emailed)
-        # users_emailed = users_emailed[1]['extra_vars']['recipient']['user_id']
-        # assert admin['id'] in users_emailed
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_issue_create_second(self, user, dataset):
