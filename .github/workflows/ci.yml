@@ -85,11 +85,11 @@ jobs:
       - name: Test with pytest
         run: |
           pytest --ckan-ini=subdir/test.ini --cov=ckanext.issues --disable-warnings ckanext/issues/tests
-      - name: Coveralls
-        uses: AndreMiras/coveralls-python-action@develop
-        with:
-          parallel: true
-          flag-name: Python ${{ matrix.python-version }} Unit Test
+      #- name: Coveralls
+      #  uses: AndreMiras/coveralls-python-action@develop
+      #  with:
+      #    parallel: true
+      #    flag-name: Python ${{ matrix.python-version }} Unit Test
 
   #publish:
   #  needs: test
@@ -116,11 +116,11 @@ jobs:
   #       user: __token__
   #        password: ${{ secrets.PYPI_API_TOKEN }}
   #
-  coveralls_finish:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-    - name: Coveralls Finished
-      uses: AndreMiras/coveralls-python-action@develop
-      with:
-        parallel-finished: true
+#  coveralls_finish:
+#     needs: test
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Coveralls Finished
+#      uses: AndreMiras/coveralls-python-action@develop
+#      with:
+#        parallel-finished: true
