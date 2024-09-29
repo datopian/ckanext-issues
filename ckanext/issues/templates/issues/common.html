@@ -11,13 +11,13 @@
             <i class="fa fa-flag"></i>Reported by you to admins
           </div>
         {% endif%}
-        <h4 class="list-group-item-name">
+        <h2 class="list-group-item-name">
           {% set issue_icon = 'abuse' if issue.visibility == 'hidden' else issue.status %}
           <span class="{{ issue_icon }} icon" title="{{issue.status}} issue"><i class="fa fa-exclamation-circle"></i></span>
           <a href="{{ h.url_for('issues_show', dataset_id=pkg.id, issue_number=issue.number) }}" {% if issue.visibility == 'hidden'%} class="issue-abuse"{% endif%}>
             {{issue.title}}
           </a>
-        </h4>
+        </h2>
         <ul class="list-group-item-meta">
           <li>Opened by <a href="{{ h.url_for('user.read', id=issue.user) }}">{{issue.user}}</a></li>
           <li>
