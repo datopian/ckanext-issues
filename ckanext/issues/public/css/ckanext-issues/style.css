@@ -11,6 +11,11 @@
   margin-bottom: 0;
 }
 
+.issue-header h2.page-heading-accebility {
+  word-wrap: break-word;
+  margin-bottom: 0;
+}
+
 .issue-header .header-number {
   color: #575757;
 }
