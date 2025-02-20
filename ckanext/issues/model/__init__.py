@@ -28,14 +28,14 @@ def setup():
     Prepopulate issue_category table with default categories.
     """
     engine = ensure_engine()
-    if not issue_table.exists():
-        issue_category_table.create(checkfirst=True)
-        issue_table.create(checkfirst=True)
-        issue_comment_table.create(checkfirst=True)
+    if not issue_table.exists(engine):
+        issue_category_table.create(engine, checkfirst=True)
+        issue_table.create(engine, checkfirst=True)
+        issue_comment_table.create(engine, checkfirst=True)
 
         if report_tables:
             for table in report_tables:
-                table.create(checkfirst=True)
+                table.create(engine, checkfirst=True)
         log.debug('Issue tables created')
 
         # add default categories if they don't already exist
