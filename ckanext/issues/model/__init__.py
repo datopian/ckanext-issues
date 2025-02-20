@@ -9,6 +9,7 @@ import ckan.model.domain_object as domain_object
 from ckan.lib.dictization import model_dictize
 
 from ckanext.issues.model.report import define_report_tables
+from ckan.model import ensure_engine
 
 from datetime import datetime
 import logging
@@ -26,6 +27,7 @@ def setup():
     Create issue and issue_category tables in the database.
     Prepopulate issue_category table with default categories.
     """
+    engine = ensure_engine()
     if not issue_table.exists():
         issue_category_table.create(checkfirst=True)
         issue_table.create(checkfirst=True)
