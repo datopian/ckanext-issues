@@ -26,10 +26,6 @@ def setup():
     Create issue and issue_category tables in the database.
     Prepopulate issue_category table with default categories.
     """
-    if not model.package_table.exists():
-        # during tests?
-        return
-
     if not issue_table.exists():
         issue_category_table.create(checkfirst=True)
         issue_table.create(checkfirst=True)
