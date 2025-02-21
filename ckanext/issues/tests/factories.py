@@ -28,7 +28,7 @@ class Issue(factory.Factory):
 
         try:
             issue_dict = toolkit.get_action("issue_create")(
-                context=context, **data_dict
+                context, data_dict
             )
         except toolkit.ValidationError as e:
             raise ValueError(f"Validation Error: {e}") from e
@@ -57,7 +57,7 @@ class IssueComment(factory.Factory):
 
         try:
             issue_comment_dict = toolkit.get_action("issue_comment_create")(
-                context=context, **data_dict
+                context, data_dict
             )
         except toolkit.ValidationError as e:
             raise ValueError(f"Validation Error: {e}") from e
