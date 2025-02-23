@@ -13,6 +13,8 @@ def dataset():
     return factories.Dataset()
 
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestAsPackageId(object):
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")

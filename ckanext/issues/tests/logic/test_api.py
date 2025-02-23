@@ -24,6 +24,8 @@ def comment(issue, user):
                     dataset_id=issue['dataset_id'],)
     return comment
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestIssueApi(object):
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")

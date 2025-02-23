@@ -8,6 +8,8 @@ from ckan.tests import factories
 from ckanext.issues.tests import factories as issue_factories
 from ckanext.issues.tests.fixtures import issues_setup, user, owner
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestIssueUpdate(object):
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
@@ -123,6 +125,8 @@ class TestIssueUpdate(object):
         )
 
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestIssueDelete(object):
     @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_dataset_owner_can_delete_issue(self, owner):
@@ -176,6 +180,8 @@ class TestIssueDelete(object):
                       context, issue_id=issue['id'], dataset_id=dataset['id'])
 
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestReport(object):
     @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_any_user_can_report_an_issue(self, user):
