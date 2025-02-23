@@ -1,66 +1,22 @@
+import pytest
+from pytest_factoryboy import register
+
 from ckanext.issues import model
-from ckan.tests import factories
-import ckan.plugins.toolkit as toolkit
-import factory
+from ckan.tests.factories import CKANFactory
 
 
-class Issue(factory.Factory):
+class Issue(CKANFactory):
     class Meta:
         model = model.Issue
-        abstract = False
+        action = 'issue_create'
 
-    title = factory.Sequence(lambda n: f"Test Issue [{n}]")
-    description = "Some description"
-    dataset_id = factory.LazyAttribute(lambda _: factories.Dataset()["id"])
-    # Add a default value for 'user' to avoid KeyError
-    user = "testsysadmin"
-
-    @classmethod
-    def _create(cls, target_class, *args, **kwargs):
-        if args:
-            raise ValueError("Positional args aren't supported, use keyword args.")
-
-        # Ensure 'user' is always present in kwargs
-        user = kwargs.pop("user", "testsysadmin")
-        context = {"user": user}
-
-        data_dict = dict(**kwargs)
-
-        try:
-            issue_dict = toolkit.get_action("issue_create")(
-                context, data_dict
-            )
-        except toolkit.ValidationError as e:
-            raise ValueError(f"Validation Error: {e}") from e
-
-        return issue_dict
-
-
-class IssueComment(factory.Factory):
+class IssueComment(CKANFactory):
     class Meta:
         model = model.IssueComment
-        abstract = False
+        action = 'issue_comment_create'
 
-    comment = "some comment"
-    user = "testsysadmin"  # Default user for consistency
 
-    @classmethod
-    def _create(cls, target_class, *args, **kwargs):
-        if args:
-            raise ValueError("Positional args aren't supported, use keyword args.")
-
-        # Ensure 'user' is always present in kwargs
-        user = kwargs.pop("user", "testsysadmin")
-        context = {"user": user}
-
-        data_dict = dict(**kwargs)
-
-        try:
-            issue_comment_dict = toolkit.get_action("issue_comment_create")(
-                context, data_dict
-            )
-        except toolkit.ValidationError as e:
-            raise ValueError(f"Validation Error: {e}") from e
-
-        return issue_comment_dict
-
+@pytest.fixture()
+def clean_db(reset_db, migrate_db_for):
+    reset_db()
+    migrate_db_for("issues")
