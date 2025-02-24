@@ -13,6 +13,7 @@ from ckanext.issues.tests.fixtures import issues_setup, user, owner
 class TestIssueUpdate(object):
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_org_editor_can_update_an_issue(self, user):
         org = factories.Organization(
             users=[{'name': user['id'], 'capacity': 'editor'}]
@@ -32,6 +33,7 @@ class TestIssueUpdate(object):
                                 status='open')
         
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_issue_owner_can_update_issue(self, owner):
         issue_owner = owner
         org = factories.Organization()
@@ -51,6 +53,7 @@ class TestIssueUpdate(object):
                                 status='open')
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_organization_member_cannot_update_issue(self, user, owner):
         issue_owner = owner
         org = factories.Organization(
@@ -77,6 +80,7 @@ class TestIssueUpdate(object):
         )
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_normal_user_cannot_update_issue(self, user, owner):
         issue_owner = owner
         org = factories.Organization()
@@ -101,6 +105,7 @@ class TestIssueUpdate(object):
         )
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_anonymous_user_cannot_update_issue(self, user, owner):
         issue_owner = owner
         org = factories.Organization()
@@ -129,6 +134,7 @@ class TestIssueUpdate(object):
 @pytest.mark.usefixtures("with_plugins")
 class TestIssueDelete(object):
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_dataset_owner_can_delete_issue(self, owner):
         org = factories.Organization(user=owner)
         dataset = factories.Dataset(owner_org=org['name'])
@@ -146,6 +152,7 @@ class TestIssueDelete(object):
                           dataset_id=dataset['id'])
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_issue_owner_cannot_delete_on_a_dataset_they_do_not_own(self, user):
         # they aren't part of the org
         org = factories.Organization()
@@ -164,6 +171,7 @@ class TestIssueDelete(object):
                       context, issue_id=issue['id'], dataset_id=dataset['id'])
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_user_cannot_delete_issue_they_do_not_own(self, user, owner):
         org = factories.Organization(user=owner)
         dataset = factories.Dataset(owner_org=org['name'])
@@ -184,6 +192,7 @@ class TestIssueDelete(object):
 @pytest.mark.usefixtures("with_plugins")
 class TestReport(object):
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_any_user_can_report_an_issue(self, user):
         context = {
             'user': user['name'],
@@ -192,6 +201,7 @@ class TestReport(object):
         assert helpers.call_auth('issue_report', context=context)
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_anon_users_cannot_report_issues(self):
         context = {
             'user': None,

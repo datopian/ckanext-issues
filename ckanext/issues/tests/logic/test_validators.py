@@ -18,6 +18,7 @@ def dataset():
 class TestAsPackageId(object):
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_given_name_returns_id(self, dataset):
         package_id = validators.as_package_id(dataset['name'],
                                               context={
@@ -26,6 +27,7 @@ class TestAsPackageId(object):
         assert dataset['id'] == package_id
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_given_id_returns_id(self, dataset):
         package_id = validators.as_package_id(dataset['id'],
                                               context={

@@ -25,10 +25,10 @@ def comment(issue, user):
     return comment
 
 @pytest.mark.ckan_config("ckan.plugins", "issues")
-@pytest.mark.usefixtures("with_plugins")
 class TestIssueApi(object):
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("with_plugins", "test_request_context")
     def test_search_api(self, app, user, dataset, issue, comment):
         response = app.get("/api/3/action/issue_search", extra_environ={})
         assert 200 == response._status_code
