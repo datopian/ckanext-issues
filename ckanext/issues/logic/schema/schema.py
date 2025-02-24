@@ -31,7 +31,7 @@ def issue_show_schema():
 
 def issue_create_schema():
     return {
-        'title': [not_missing],
+        'title': [ignore_missing],
         'description': [ignore_missing],
         'dataset_id': [not_missing, package_exists, as_package_id],
     }
