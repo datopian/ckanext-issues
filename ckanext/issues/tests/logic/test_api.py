@@ -24,11 +24,10 @@ def comment(issue, user):
                     dataset_id=issue['dataset_id'],)
     return comment
 
-@pytest.mark.ckan_config("ckan.plugins", "issues")
 class TestIssueApi(object):
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
-    @pytest.mark.usefixtures("with_plugins", "test_request_context")
+    @pytest.mark.ckan_config("ckan.plugins", "issues")
+    @pytest.mark.usefixtures("clean_db", "issues_setup", "with_plugins", "test_request_context")
     def test_search_api(self, app, user, dataset, issue, comment):
         response = app.get("/api/3/action/issue_search", extra_environ={})
         assert 200 == response._status_code
