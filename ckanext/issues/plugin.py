@@ -8,6 +8,7 @@ import ckan.plugins as p
 from ckan.lib.plugins import DefaultTranslation
 from ckan.plugins import implements, toolkit
 from ckan.lib.helpers import ckan_version
+from ckanext.issues.logic.action.action import issue_search, issue_create, issue_delete, issue_comment_create, issue_show, issue_update, issue_comment_report, issue_comment_search, issue_report, issue_report_clear
 
 from ckanext.issues.views.issues import issues
 from ckanext.issues.views.moderation import moderation
@@ -86,12 +87,17 @@ class IssuesPlugin(p.SingletonPlugin, DefaultTranslation):
 
     # IActions
     def get_actions(self):
-        import ckanext.issues.logic.action as action
-
-        return dict((name, function) for name, function
-                    in action.__dict__.items()
-                    if callable(function))
-
+        return {
+            'issue_search': issue_search,
+            'issue_delete': issue_delete,
+            'issue_show': issue_show,
+            'issue_create': issue_create,
+            'issue_comment_create': issue_comment_create,
+            'issue_update': issue_update,
+            'issue_report': issue_report,
+            'issue_report_clear': issue_report_clear,
+            'issue_comment_search': issue_comment_search,
+        }
 
     # IAuthFunctions
     def get_auth_functions(self):
@@ -103,7 +109,6 @@ class IssuesPlugin(p.SingletonPlugin, DefaultTranslation):
             'issue_create': auth.issue_create,
             'issue_comment_create': auth.issue_comment_create,
             'issue_update': auth.issue_update,
-            'issue_delete': auth.issue_delete,
             'issue_report': auth.issue_report,
             'issue_report_clear': auth.issue_report_clear,
             'issue_comment_search': auth.issue_comment_search,

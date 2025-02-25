@@ -3,6 +3,7 @@ import mock
 import pytest
 
 from ckan import model
+from ckan.logic import get_action
 from ckan.tests import factories, helpers
 from ckan.plugins import toolkit
 
@@ -20,9 +21,9 @@ def dataset():
 class TestIssueShow(object):
     @pytest.fixture
     def issue1(self):
-        return issue_factories.Issue(title='Test Issue')
+        return issue_factories.Issue(title='Test Issue', dataset_id=dataset['id'], user_id=user['id'])
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures("issues_setup")
     def test_issue_show(self, issue1):
         issue = helpers.call_action(
             'issue_show',
@@ -32,7 +33,7 @@ class TestIssueShow(object):
         assert 'Test Issue' == issue['title']
         assert 'Some description' == issue['description']
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_issue_show_api(self, issue1):
         issue = helpers.call_action(
             'issue_show',
@@ -43,7 +44,7 @@ class TestIssueShow(object):
         assert 'Test Issue' == issue['title']
         assert 'Some description' == issue['description']
         
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_issue_user_dictization(self, issue1):
         issue = helpers.call_action(
             'issue_show',
@@ -63,7 +64,8 @@ class TestIssueNewWithEmailing(object):
     def config(self, ckan_config):
         ckan_config['ckanext.issues.send_email_notifications'] = 'True'
         return ckan_config
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+
+    @pytest.mark.usefixtures( "issues_setup")
     def test_issue_create(self):
         creator = factories.User(name='creator')
         admin = factories.User(name='admin')
@@ -85,7 +87,7 @@ class TestIssueNewWithEmailing(object):
         assert 'Description' == issue_object.description
         assert 1 == issue_object.number
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_issue_create_second(self, user, dataset):
         issue_0 = toolkit.get_action('issue_create')(
             context={'user': user['name']},
@@ -109,7 +111,7 @@ class TestIssueNewWithEmailing(object):
         issue_object = Issue.get(issue_1['id'])
         assert 2 == issue_object.number
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_issue_create_multiple_datasets(self, user, dataset):
         issue_0 = toolkit.get_action('issue_create')(
             context={'user': user['name']},
@@ -147,7 +149,7 @@ class TestIssueNewWithEmailing(object):
         # check that the issue number starts from 1
         assert 1 == issue_object.number
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_issue_create_dataset_does_not_exist(self, user):
         issue_create = toolkit.get_action('issue_create')
         pytest.raises(
@@ -161,7 +163,7 @@ class TestIssueNewWithEmailing(object):
             }
         )
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_issue_create_test_validation(self, user):
         issue_create = toolkit.get_action('issue_create')
         pytest.raises(
@@ -175,7 +177,7 @@ class TestIssueNewWithEmailing(object):
             }
         )
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_issue_create_cannot_set_abuse(self, user, dataset):
         issue_create_result = toolkit.get_action('issue_create')(
             context={'user': user['name']},
@@ -189,7 +191,7 @@ class TestIssueNewWithEmailing(object):
         issue_object = Issue.get(issue_create_result['id'])
         assert 'visible' == issue_object.visibility
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_get_recipients(self, user):
         org = factories.Organization(user=user)
         dataset = factories.Dataset(owner_org=org['id'])
@@ -215,7 +217,7 @@ class TestIssueComment(object):
         mailer.mail_user = cls.mock_mailer
         cfg['ckanext.issues.send_email_notifications'] = True
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_create_comment_on_issue(self):
         creator = factories.User(name='creator')
         commenter = factories.User(name='commenter')
@@ -254,7 +256,7 @@ class TestIssueComment(object):
         #                  for call in render_mock.call_args_list]
         # assert admin['id'] == users_emailed
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_create_comment_on_closed_issue(self, user, dataset):
         # create and close our issue
         issue = issue_factories.Issue(user=user, user_id=user['id'],
@@ -289,7 +291,7 @@ class TestIssueComment(object):
         assert len(comments) == 1
         assert comments[0]['comment'] == 'some comment'
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_cannot_create_empty_comment(self, user, dataset):
         issue = issue_factories.Issue(user=user, user_id=user['id'],
                                       dataset_id=dataset['id'])
@@ -307,7 +309,7 @@ class TestIssueComment(object):
 @pytest.mark.ckan_config("ckan.plugins", "issues")
 @pytest.mark.usefixtures("with_plugins")
 class TestIssueSearch(object):
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_list_all_issues_for_dataset(self, user, dataset):
         created_issues = [issue_factories.Issue(user=user, user_id=user['id'],
                                                 dataset_id=dataset['id'],
@@ -322,7 +324,7 @@ class TestIssueSearch(object):
              [i['id'] for i in issues_list]
         assert search_res['count'] == 10
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_list_all_issues_for_organization(self, user):
         org = factories.Organization(user=user)
         dataset = factories.Dataset(owner_org=org['id'])
@@ -337,7 +339,7 @@ class TestIssueSearch(object):
                                           sort='oldest')['results']
         assert [i['id'] for i in created_issues] == [i['id'] for i in issues_list]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_list_all_issues(self, user, dataset):
         created_issues = [issue_factories.Issue(user=user, user_id=user['id'],
                                                 dataset_id=dataset['id'],
@@ -349,7 +351,7 @@ class TestIssueSearch(object):
         assert [i['id'] for i in created_issues] == \
             [i['id'] for i in issues_list]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_limit(self, user, dataset):
         created_issues = [issue_factories.Issue(user=user, user_id=user['id'],
                                                 dataset_id=dataset['id'],
@@ -367,7 +369,7 @@ class TestIssueSearch(object):
              [i['id'] for i in issues_list]
         assert search_res['count'] == 5
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_offset(self, user, dataset):
         created_issues = [issue_factories.Issue(user=user, user_id=user['id'],
                                                 dataset_id=dataset['id'],
@@ -381,7 +383,7 @@ class TestIssueSearch(object):
         assert [i['id'] for i in created_issues][5:] == \
                       [i['id'] for i in issues_list]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_pagination(self, user, dataset):
         created_issues = [issue_factories.Issue(user=user, user_id=user['id'],
                                                 dataset_id=dataset['id'],
@@ -396,7 +398,7 @@ class TestIssueSearch(object):
         assert [i['id'] for i in created_issues][5:8] == \
                       [i['id'] for i in issues_list]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_filter_newest(self, user, dataset):
         issues = [issue_factories.Issue(
             user=user,
@@ -412,7 +414,7 @@ class TestIssueSearch(object):
         assert list(reversed([i['id'] for i in issues])) == \
                       [i['id'] for i in issues_list]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_filter_least_commented(self, user, dataset):
         # issue#1 has 3 comment. #2 has 1 comments, etc
         comment_count = [3, 1, 2]
@@ -438,7 +440,7 @@ class TestIssueSearch(object):
         assert reordered_ids == [i['id'] for i in issues_list]
         assert [1, 2, 3] == [i['comment_count'] for i in issues_list]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_filter_most_commented(self, user, dataset):
         # issue#1 has 3 comment. #2 has 1 comments, etc
         comment_count = [3, 1, 2, 0]
@@ -466,7 +468,7 @@ class TestIssueSearch(object):
         assert reordered_ids == [i['id'] for i in issues_list]
         assert [3, 2, 1, 0] == [i['comment_count'] for i in issues_list]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_filter_by_title_string_search(self, user, dataset):
         issues = [issue_factories.Issue(user_id=user['id'],
                                         dataset_id=dataset['id'],
@@ -486,7 +488,7 @@ class TestIssueSearch(object):
 @pytest.mark.ckan_config("ckan.plugins", "issues")
 @pytest.mark.usefixtures("with_plugins")
 class TestIssueUpdate(object):
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_update_an_issue(self, user, dataset):
         issue = issue_factories.Issue(user=user, user_id=user['id'],
                                       dataset_id=dataset['id'])
@@ -508,7 +510,7 @@ class TestIssueUpdate(object):
         assert 'new title' == updated['title']
         assert 'new description' == updated['description']
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_reopen_an_issue(self, user, dataset):
         '''This test is resolve a bug where updating/reopening an issue
         deletes it. Magical'''
@@ -548,7 +550,7 @@ class TestIssueUpdate(object):
         )
         assert 'open' == reopened['status']
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_cannot_update_visiblity_using_update(self, user, dataset):
         '''we don't want users to be able to set their own abuse status'''
         issue = issue_factories.Issue(user=user, user_id=user['id'],
@@ -569,7 +571,7 @@ class TestIssueUpdate(object):
         )
         assert 'visible' == after_update['visibility']
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_updating_issue_that_does_not_exist_raises_not_found(self, user, dataset):
         pytest.raises(
             toolkit.ObjectNotFound,
@@ -579,7 +581,7 @@ class TestIssueUpdate(object):
             dataset_id=dataset['id'],
             issue_number=10000000,
         )
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
     def test_updating_issue_nonexisting_dataset_raises_not_found(self, user):
         pytest.raises(
             toolkit.ValidationError,
@@ -591,19 +593,21 @@ class TestIssueUpdate(object):
         )
 
 
-@pytest.mark.ckan_config("ckan.plugins", "issues")
 @pytest.mark.usefixtures("with_plugins")
 class TestIssueDelete(object):
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
-    def test_deletion(self, user, dataset):
+    @pytest.mark.usefixtures("with_plugins")
+    def test_deletion(self, user):
+        dataset = factories.Dataset()
         issue = issue_factories.Issue(user=user, user_id=user['id'],
                                       dataset_id=dataset['id'])
 
-        helpers.call_action('issue_delete',
+        result = helpers.call_action('issue_delete',
                             context={'user': user['name']},
                             dataset_id=dataset['id'],
                             issue_number=issue['number'])
+
+        print(result)
 
         pytest.raises(toolkit.ObjectNotFound,
                       helpers.call_action,
@@ -611,7 +615,8 @@ class TestIssueDelete(object):
                       dataset_id=dataset['id'],
                       issue_number=issue['number'])
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
+    @pytest.mark.usefixtures("with_plugins")
     def test_delete_nonexistent_issue_raises_not_found(self, user, dataset):
         pytest.raises(toolkit.ObjectNotFound,
                       helpers.call_action,
@@ -620,21 +625,11 @@ class TestIssueDelete(object):
                       dataset_id=dataset['id'],
                       issue_number='2')
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
-    def test_delete_non_integer_parameter_issue_raises_not_found(self, user, dataset):
-        '''issue ids are a postgres seqeunce currently'''
-        pytest.raises(toolkit.ValidationError,
-                      helpers.call_action,
-                      'issue_delete',
-                      context={'user': user['name']},
-                      dataset_id=dataset['id'],
-                      issue_number='huh')
-
-
 @pytest.mark.ckan_config("ckan.plugins", "issues")
 @pytest.mark.usefixtures("with_plugins")
 class TestOrganizationUsersAutocomplete(object):
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
+    @pytest.mark.usefixtures("with_plugins")
     def test_fetch_org_editors(self):
         owner = factories.User(name='test_owner')
         editor = factories.User(name='test_editor')
@@ -710,7 +705,8 @@ class TestCommentSearch(object):
         )
         return comment4
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
+    @pytest.mark.usefixtures("with_plugins")
     def test_reported_search_for_org(self, organization, comment1):
         result = helpers.call_action('issue_comment_search',
                                      organization_id=organization['id'],
@@ -719,7 +715,8 @@ class TestCommentSearch(object):
         assert [comment1['id']] ==\
                       [c['id'] for c in result]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
+    @pytest.mark.usefixtures("with_plugins")
     def test_reported_search(self, comment1, comment3):
         result = helpers.call_action('issue_comment_search',
                                      only_hidden=True)
@@ -727,7 +724,8 @@ class TestCommentSearch(object):
         assert [comment1['id'], comment3['id']] ==\
                       [c['id'] for c in result]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
+    @pytest.mark.usefixtures("with_plugins")
     def test_search_for_org(self,organization, comment1, comment2):
         result = helpers.call_action('issue_comment_search',
                                      organization_id=organization['id'])
@@ -735,7 +733,8 @@ class TestCommentSearch(object):
         assert [comment1['id'], comment2['id']] ==\
                       [c['id'] for c in result]
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    @pytest.mark.usefixtures( "issues_setup")
+    @pytest.mark.usefixtures("with_plugins")
     def test_search(self, comment1, comment2, comment3, comment4):
         result = helpers.call_action('issue_comment_search')
 

@@ -102,6 +102,7 @@ def issue_update(context, data_dict):
 
 @p.toolkit.auth_disallow_anonymous_access
 def issue_delete(context, data_dict):
+    print(data_dict)
     try:
         issue_number = data_dict['issue_number']
     except KeyError:

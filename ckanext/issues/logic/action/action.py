@@ -277,9 +277,10 @@ def issue_update(context, data_dict):
     session.commit()
     return issue.as_dict()
 
-
 @validate(schema.issue_delete_schema)
 def issue_delete(context, data_dict):
+    print(data_dict)
+    print( "INSIDE FUNCTION")
     '''Delete and issues
 
     :param dataset_id: the name or id of the dataset that the issue item
