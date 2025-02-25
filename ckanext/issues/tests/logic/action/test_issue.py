@@ -15,6 +15,8 @@ from ckanext.issues.tests.fixtures import issues_setup, user
 def dataset():
     return factories.Dataset()
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestIssueShow(object):
     @pytest.fixture
     def issue1(self):
@@ -54,6 +56,8 @@ class TestIssueShow(object):
         user = vars(user)
         assert 'default' == user['name']
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestIssueNewWithEmailing(object):
     @pytest.fixture
     def config(self, ckan_config):
@@ -200,6 +204,8 @@ class TestIssueNewWithEmailing(object):
         assert recip[0]['organization_title'] == org['title']
 
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestIssueComment(object):
     @classmethod
     def _apply_config_changes(cls, cfg):
@@ -298,6 +304,8 @@ class TestIssueComment(object):
         )
 
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestIssueSearch(object):
     @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_list_all_issues_for_dataset(self, user, dataset):
@@ -475,6 +483,8 @@ class TestIssueSearch(object):
                 set([i['id'] for i in filtered_issues])
 
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestIssueUpdate(object):
     @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_update_an_issue(self, user, dataset):
@@ -581,6 +591,8 @@ class TestIssueUpdate(object):
         )
 
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestIssueDelete(object):
 
     @pytest.mark.usefixtures("clean_db", "issues_setup")
@@ -619,6 +631,8 @@ class TestIssueDelete(object):
                       issue_number='huh')
 
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestOrganizationUsersAutocomplete(object):
     @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_fetch_org_editors(self):
@@ -639,6 +653,8 @@ class TestOrganizationUsersAutocomplete(object):
                     set([i['name'] for i in result])
 
 
+@pytest.mark.ckan_config("ckan.plugins", "issues")
+@pytest.mark.usefixtures("with_plugins")
 class TestCommentSearch(object):
     @pytest.fixture
     def organization(self):
