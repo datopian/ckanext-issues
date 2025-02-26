@@ -355,7 +355,7 @@ class TestIssueSearch(object):
                                           sort='oldest')['results']
         assert [i['id'] for i in created_issues] == [i['id'] for i in issues_list]
 
-    @pytest.mark.usefixtures( "issues_setup")
+    @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_list_all_issues(self, user, dataset):
         created_issues = [issue_factories.Issue(user=user, user_id=user['id'],
                                                 dataset_id=dataset['id'],
@@ -642,15 +642,13 @@ class TestIssueDelete(object):
                       issue_number='2')
 
 @pytest.mark.ckan_config("ckan.plugins", "issues")
-@pytest.mark.usefixtures("with_plugins")
 class TestOrganizationUsersAutocomplete(object):
-    @pytest.mark.usefixtures( "issues_setup")
     @pytest.mark.usefixtures("clean_db", "with_plugins")
     def test_fetch_org_editors(self):
-        owner = factories.User()
-        editor = factories.User()
-        admin = factories.User()
-        member = factories.User()
+        owner = factories.User(name='test_owner')
+        editor = factories.User(name='test_editor')
+        admin = factories.User(name='test_admin')
+        member = factories.User(name='test_member')
         factories.User()
         organization = factories.Organization(user=owner, users=[
             {'name': editor['id'], 'capacity': 'editor'},
