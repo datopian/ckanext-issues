@@ -747,7 +747,7 @@ class TestCommentSearch(object):
         assert [comment1['id'], comment2['id']] ==\
                       [c['id'] for c in result]
 
-    @pytest.mark.usefixtures( "issues_setup")
+    @pytest.mark.usefixtures("clean_db", "issues_setup")
     @pytest.mark.usefixtures("with_plugins")
     def test_search(self, comment1, comment2, comment3, comment4):
         result = helpers.call_action('issue_comment_search')

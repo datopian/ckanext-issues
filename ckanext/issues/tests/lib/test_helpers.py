@@ -6,59 +6,23 @@ from ckanext.issues.tests import factories as issue_factories
 from ckanext.issues.lib.util import issue_count, issue_comments, issue_comment_count
 from ckanext.issues.tests.fixtures import issues_setup
 
-@pytest.fixture
-def org():
-    return factories.Organization()
-
-@pytest.fixture
-def dataset(org):
-    return factories.Dataset(owner_org=org['id'])
-
-@pytest.fixture
-def issue(dataset):
-    return issue_factories.Issue(dataset_id=dataset['id'])
-
-@pytest.fixture
-def comment1(issue):
-    comment1 = issue_factories.IssueComment(
-                issue_number=issue['number'],
-                dataset_id=issue['dataset_id'],
-        )
-    return comment1
-
-@pytest.fixture
-def comment2(issue):
-    comment2 = issue_factories.IssueComment(
-                issue_number=issue['number'],
-                dataset_id=issue['dataset_id'],
-        )
-    return comment2
-
-@pytest.fixture
-def comment3(issue):
-    comment3 = issue_factories.IssueComment(
-                issue_number=issue['number'],
-                dataset_id=issue['dataset_id'],
-        )
-    return comment3
-
-@pytest.fixture
-def comments(comment1, comment2, comment3):
-    return [comment1, comment2, comment3]
-
 @pytest.mark.usefixtures("with_plugins")
 class TestUtils(object):
 
-    def test_issue_count(self, dataset):
+    @pytest.mark.usefixtures("clean_db", "issues_setup", "with_plugins", "test_request_context")
+    def test_issue_count(self):
+        user = factories.User()
         org = factories.Organization()
         dataset = factories.Dataset(owner_org=org['id'])
-        issue = issue_factories.Issue(dataset_id=dataset['id'])
+        issue = issue_factories.Issue(title='Test Issue', description='Some description', dataset_id=dataset['id'], user_id=user['id'])
         assert issue_count(dataset) == 1
 
-    def test_issue_comment_count(self, issue):
+    @pytest.mark.usefixtures("clean_db", "issues_setup", "with_plugins", "test_request_context")
+    def test_issue_comment_count(self):
+        user = factories.User()
         org = factories.Organization()
         dataset = factories.Dataset(owner_org=org['id'])
-        issue = issue_factories.Issue(dataset_id=dataset['id'])
+        issue = issue_factories.Issue(title='Test Issue', description='Some description', dataset_id=dataset['id'], user_id=user['id'])
         comment1 = issue_factories.IssueComment(
                     issue_number=issue['number'],
                     dataset_id=issue['dataset_id'],
@@ -73,7 +37,24 @@ class TestUtils(object):
         )
         assert issue_comment_count(issue) == 3
 
-    def test_issue_comments(self, issue, comment1, comment2, comment3):
+    @pytest.mark.usefixtures("clean_db", "issues_setup", "with_plugins", "test_request_context")
+    def test_issue_comments(self):
+        user = factories.User()
+        org = factories.Organization()
+        dataset = factories.Dataset(owner_org=org['id'])
+        issue = issue_factories.Issue(title='Test Issue', description='Some description', dataset_id=dataset['id'], user_id=user['id'])
+        comment1 = issue_factories.IssueComment(
+                    issue_number=issue['number'],
+                    dataset_id=issue['dataset_id'],
+        )
+        comment2 = issue_factories.IssueComment(
+                    issue_number=issue['number'],
+                    dataset_id=issue['dataset_id'],
+        )
+        comment3 = issue_factories.IssueComment(
+                    issue_number=issue['number'],
+                    dataset_id=issue['dataset_id'],
+        )
         comments_is = issue_comments(issue)
         assert [comment1['id'], comment2['id'], comment3['id']] ==\
                [comment.id for comment in comments_is]
