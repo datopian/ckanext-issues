@@ -19,43 +19,56 @@ def dataset():
 @pytest.mark.ckan_config("ckan.plugins", "issues")
 @pytest.mark.usefixtures("with_plugins")
 class TestIssueShow(object):
-    @pytest.fixture
-    def issue1(self):
-        return issue_factories.Issue(title='Test Issue', dataset_id=dataset['id'], user_id=user['id'])
 
     @pytest.mark.usefixtures("issues_setup")
-    def test_issue_show(self, issue1):
-        issue = helpers.call_action(
-            'issue_show',
-            dataset_id=issue1['dataset_id'],
-            issue_number=issue1['number'],
+    def test_issue_show(self):
+        user = factories.User()
+        dataset = factories.Dataset()
+        issue = issue_factories.Issue(title='Test Issue', description='Some description', dataset_id=dataset['id'], user_id=user['id'])
+        issue_show = toolkit.get_action('issue_show')(
+            context={'user': user['name']},
+            data_dict={
+                'issue_number': issue['number'],
+                'dataset_id': dataset['id'],
+            }
         )
-        assert 'Test Issue' == issue['title']
-        assert 'Some description' == issue['description']
+        assert 'Test Issue' == issue_show['title']
+        assert 'Some description' == issue_show['description']
 
     @pytest.mark.usefixtures( "issues_setup")
-    def test_issue_show_api(self, issue1):
-        issue = helpers.call_action(
-            'issue_show',
-            dataset_id=issue1['dataset_id'],
-            issue_number=issue1['number'],
-            api_version=3
+    def test_issue_show_api(self):
+        user = factories.User()
+        dataset = factories.Dataset()
+        issue = issue_factories.Issue(title='Test Issue', description='Some description', dataset_id=dataset['id'], user_id=user['id'])
+        issue_show = toolkit.get_action('issue_show')(
+            context={'user': user['name']},
+            data_dict={
+                'issue_number': issue['number'],
+                'dataset_id': dataset['id'],
+                'api_version': 3
+            }
         )
-        assert 'Test Issue' == issue['title']
-        assert 'Some description' == issue['description']
+        assert 'Test Issue' == issue_show['title']
+        assert 'Some description' == issue_show['description']
         
     @pytest.mark.usefixtures( "issues_setup")
-    def test_issue_user_dictization(self, issue1):
-        issue = helpers.call_action(
-            'issue_show',
-            dataset_id=issue1['dataset_id'],
-            issue_number=issue1['number'],
+    def test_issue_user_dictization(self):
+        user = factories.User()
+        dataset = factories.Dataset()
+        issue = issue_factories.Issue(title='Test Issue', description='Some description', dataset_id=dataset['id'], user_id=user['id'])
+        issue_show = toolkit.get_action('issue_show')(
+            context={'user': user['name']},
+            data_dict={
+                'issue_number': issue['number'],
+                'dataset_id': dataset['id'],
+                'api_version': 3
+            }
         )
         user_id = issue['user_id']
-        user = model.Session.query(model.User).\
+        _user = model.Session.query(model.User).\
             filter(model.User.id==user_id).first()
-        user = vars(user)
-        assert 'default' == user['name']
+        user_dict = model.User.as_dict(_user)
+        assert 'default' == user_dict['name']
 
 @pytest.mark.ckan_config("ckan.plugins", "issues")
 @pytest.mark.usefixtures("with_plugins")
@@ -217,11 +230,14 @@ class TestIssueComment(object):
         mailer.mail_user = cls.mock_mailer
         cfg['ckanext.issues.send_email_notifications'] = True
 
-    @pytest.mark.usefixtures( "issues_setup")
-    def test_create_comment_on_issue(self):
-        creator = factories.User(name='creator')
-        commenter = factories.User(name='commenter')
-        admin = factories.User(name='admin')
+    @pytest.mark.usefixtures("clean_db", "issues_setup")
+    def test_create_comment_on_issue(self, faker):
+        creator_name = faker.user_name()
+        commenter_name = faker.user_name()
+        admin_name = faker.user_name()
+        creator = factories.User(name=creator_name)
+        commenter = factories.User(name=commenter_name)
+        admin = factories.User(name=admin_name)
         org = factories.Organization(
             users=[{'name': admin['id'], 'capacity': 'admin'}])
         dataset = factories.Dataset(owner_org=org['id'])
@@ -250,7 +266,7 @@ class TestIssueComment(object):
         comments = result['comments']
         assert len(comments) == 1
         assert comments[0]['comment'] == 'some comment'
-        assert comments[0]['user']['name'] == 'commenter'
+        assert comments[0]['user']['name'] == commenter_name
         # some test user for the org called 'test.ckan.net' gets emailed too
         # users_emailed = [call[1]['extra_vars']['recipient']['user_id']
         #                  for call in render_mock.call_args_list]
@@ -309,7 +325,7 @@ class TestIssueComment(object):
 @pytest.mark.ckan_config("ckan.plugins", "issues")
 @pytest.mark.usefixtures("with_plugins")
 class TestIssueSearch(object):
-    @pytest.mark.usefixtures( "issues_setup")
+    @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_list_all_issues_for_dataset(self, user, dataset):
         created_issues = [issue_factories.Issue(user=user, user_id=user['id'],
                                                 dataset_id=dataset['id'],
@@ -629,13 +645,13 @@ class TestIssueDelete(object):
 @pytest.mark.usefixtures("with_plugins")
 class TestOrganizationUsersAutocomplete(object):
     @pytest.mark.usefixtures( "issues_setup")
-    @pytest.mark.usefixtures("with_plugins")
+    @pytest.mark.usefixtures("clean_db", "with_plugins")
     def test_fetch_org_editors(self):
-        owner = factories.User(name='test_owner')
-        editor = factories.User(name='test_editor')
-        admin = factories.User(name='test_admin')
-        member = factories.User(name='test_member')
-        factories.User(name='test_user')
+        owner = factories.User()
+        editor = factories.User()
+        admin = factories.User()
+        member = factories.User()
+        factories.User()
         organization = factories.Organization(user=owner, users=[
             {'name': editor['id'], 'capacity': 'editor'},
             {'name': admin['id'], 'capacity': 'admin'},
@@ -644,7 +660,7 @@ class TestOrganizationUsersAutocomplete(object):
         result = helpers.call_action('organization_users_autocomplete',
                                      q='test',
                                      organization_id=organization['id'])
-        assert set(['test_owner', 'test_editor', 'test_admin']) ==\
+        assert set([owner['name'], editor['name'], admin['name']]) ==\
                     set([i['name'] for i in result])
 
 

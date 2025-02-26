@@ -3,7 +3,10 @@ import ckan.model as model
 
 
 def issue_count(package):
-    return issue_model.Issue.get_issue_count_for_package(package['id'])
+    count = issue_model.Issue.get_issue_count_for_package(package['id'])
+    print("COUNT")
+    print(count)
+    return count
 
 def issue_comment_count(issue):
     return issue_model.IssueComment.get_comment_count_for_issue(issue['id'])

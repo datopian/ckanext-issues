@@ -46,17 +46,33 @@ def comment3(issue):
 def comments(comment1, comment2, comment3):
     return [comment1, comment2, comment3]
 
+@pytest.mark.usefixtures("with_plugins")
 class TestUtils(object):
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup", "issue")
     def test_issue_count(self, dataset):
+        org = factories.Organization()
+        dataset = factories.Dataset(owner_org=org['id'])
+        issue = issue_factories.Issue(dataset_id=dataset['id'])
         assert issue_count(dataset) == 1
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup", "comments")
     def test_issue_comment_count(self, issue):
+        org = factories.Organization()
+        dataset = factories.Dataset(owner_org=org['id'])
+        issue = issue_factories.Issue(dataset_id=dataset['id'])
+        comment1 = issue_factories.IssueComment(
+                    issue_number=issue['number'],
+                    dataset_id=issue['dataset_id'],
+        )
+        comment2 = issue_factories.IssueComment(
+                    issue_number=issue['number'],
+                    dataset_id=issue['dataset_id'],
+        )
+        comment3 = issue_factories.IssueComment(
+                    issue_number=issue['number'],
+                    dataset_id=issue['dataset_id'],
+        )
         assert issue_comment_count(issue) == 3
 
-    @pytest.mark.usefixtures("clean_db", "issues_setup")
     def test_issue_comments(self, issue, comment1, comment2, comment3):
         comments_is = issue_comments(issue)
         assert [comment1['id'], comment2['id'], comment3['id']] ==\
