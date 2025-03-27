@@ -8,7 +8,7 @@ import ckan.plugins as p
 from ckan.lib.plugins import DefaultTranslation
 from ckan.plugins import implements, toolkit
 from ckan.lib.helpers import ckan_version
-from ckanext.issues.logic.action.action import issue_search, issue_create, issue_delete, issue_comment_create, issue_show, issue_update, issue_comment_report, issue_comment_search, issue_report, issue_report_clear,     organization_users_autocomplete
+from ckanext.issues.logic.action.action import issue_search, issue_create, issue_delete, issue_comment_create, issue_show, issue_update, issue_comment_report, issue_report_show, issue_comment_search, issue_report, issue_report_clear,     organization_users_autocomplete
 
 from ckanext.issues.views.issues import issues
 from ckanext.issues.views.moderation import moderation
@@ -89,6 +89,7 @@ class IssuesPlugin(p.SingletonPlugin, DefaultTranslation):
     def get_actions(self):
         return {
             'issue_search': issue_search,
+            'issue_report_show': issue_report_show,
             'issue_delete': issue_delete,
             'issue_show': issue_show,
             'issue_create': issue_create,
