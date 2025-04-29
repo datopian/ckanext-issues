@@ -151,6 +151,7 @@ def _get_next_issue_number(session, dataset_id):
 
 
 def _get_recipients(context, dataset):
+    context['ignore_auth'] = True
     organization = dataset.owner_org
     if not organization:
         return []
