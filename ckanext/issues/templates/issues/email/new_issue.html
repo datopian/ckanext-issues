@@ -54,7 +54,7 @@ The issue is:
 > {{ issue_subject|wordwrap(width=76)|replace('\n', '\n> '|safe) }}
 > {{ issue.description|wordwrap(width=76)|replace('\n', '\n> '|safe) }}
 
-Please correct the problem or add an initial comment about the issue at: {{ h.url_for('issues.issue_show', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Once the issue has been resolved, click 'Close issue'.
+Please correct the problem or add an initial comment about the issue at: {{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Once the issue has been resolved, click 'Close issue'.
 
 Thank you,
 
