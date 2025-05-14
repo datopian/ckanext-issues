@@ -6,7 +6,7 @@
 > {{ issue_subject|wordwrap(width=76)|replace('\n', '\n> '|safe) }}
 > {{ issue.description|wordwrap(width=76)|replace('\n', '\n> '|safe) }}
 
-Ве молиме корегирајте го проблемот или додадете коментар за проблемот на следиот линк: {{ h.url_for('issues_show', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Штом проблемот е разрешен, кликнете 'Затвори проблем'.
+Ве молиме корегирајте го проблемот или додадете коментар за проблемот на следиот линк: {{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Штом проблемот е разрешен, кликнете 'Затвори проблем'.
 
 Ви благодариме,
 
@@ -31,7 +31,7 @@ Përdorues: {{ user.fullname or user.name }}
 > {{ issue_subject|wordwrap(width=76)|replace('\n', '\n> '|safe) }}
 > {{ issue.description|wordwrap(width=76)|replace('\n', '\n> '|safe) }}
 
-Korrigjoni problemin ose shtoni një koment fillestar për çështjen këtu: {{ h.url_for('issues_show', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Sapo çështja të jetë zgjidhur, klikoni butonin 'Mbyll problemin'.
+Korrigjoni problemin ose shtoni një koment fillestar për çështjen këtu: {{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Sapo çështja të jetë zgjidhur, klikoni butonin 'Mbyll problemin'.
 
 Faleminderit,
 
@@ -54,7 +54,7 @@ The issue is:
 > {{ issue_subject|wordwrap(width=76)|replace('\n', '\n> '|safe) }}
 > {{ issue.description|wordwrap(width=76)|replace('\n', '\n> '|safe) }}
 
-Please correct the problem or add an initial comment about the issue at: {{ h.url_for('issues_show', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Once the issue has been resolved, click 'Close issue'.
+Please correct the problem or add an initial comment about the issue at: {{ h.url_for('issues.issue_show', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Once the issue has been resolved, click 'Close issue'.
 
 Thank you,
 
