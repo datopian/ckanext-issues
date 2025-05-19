@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the ckanext-issues project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-issues 1.0.0\n"
@@ -19,15 +18,15 @@ msgstr ""
 
 #: ckanext/issues/auth.py:20
 msgid "User {0} not authorized for action on issue {1}"
-msgstr ""
+msgstr "User {0} not authorized for action on discussion {1}"
 
 #: ckanext/issues/auth.py:42
 msgid "User {0} not authorized for action"
-msgstr ""
+msgstr "User {0} not authorized for action"
 
 #: ckanext/issues/auth.py:96
 msgid "User {user} not authorized for action on issue {issue}"
-msgstr ""
+msgstr "User {user} not authorized for action on discussion {issue}"
 
 #: ckanext/issues/assets/js/autocomplete-action-api.js:31
 msgid "No matches found"
@@ -43,19 +42,19 @@ msgstr ""
 
 #: ckanext/issues/lib/helpers.py:201
 msgid "[{site_title} Issue] {dataset}"
-msgstr ""
+msgstr "[{site_title} Discussion] {dataset}"
 
 #: ckanext/issues/logic/action/action.py:63
 msgid "Issue does not exist"
-msgstr ""
+msgstr "Discussion does not exist"
 
 #: ckanext/issues/logic/action/action.py:81
 msgid "Issue marked as spam/abuse"
-msgstr ""
+msgstr "Discussion marked as spam/abuse"
 
 #: ckanext/issues/logic/action/action.py:569
 msgid "Issue has already been reported by this user"
-msgstr ""
+msgstr "Discussion has already been reported by this user"
 
 #: ckanext/issues/logic/validators/validators.py:13
 msgid "{0} is not a valid status"
@@ -78,11 +77,11 @@ msgstr ""
 #: ckanext/issues/logic/validators/validators.py:65
 #: ckanext/issues/logic/validators/validators.py:78
 msgid "Issue not found"
-msgstr ""
+msgstr "Discussion not found"
 
 #: ckanext/issues/logic/validators/validators.py:87
 msgid "Issue Comment not found"
-msgstr ""
+msgstr "Discussion Comment not found"
 
 #: ckanext/issues/model/__init__.py:128
 msgid "Newest"
@@ -112,7 +111,7 @@ msgstr ""
 #: ckanext/issues/templates/issues/add.html:5
 #: ckanext/issues/templates/issues/dataset.html:22
 msgid "New Issue"
-msgstr ""
+msgstr "New Discussion"
 
 #: ckanext/issues/templates/issues/add.html:16
 #: ckanext/issues/templates/issues/edit.html:14
@@ -143,11 +142,11 @@ msgstr ""
 #: ckanext/issues/templates/issues/all_issues.html:8
 #: ckanext/issues/templates/issues/all_issues.html:12
 msgid "All Issues"
-msgstr ""
+msgstr "All Discussions"
 
 #: ckanext/issues/templates/issues/all_issues.html:24
 msgid "There are currently no issues"
-msgstr ""
+msgstr "There are currently no discussions"
 
 #: ckanext/issues/templates/issues/base.html:9
 msgid "Datasets"
@@ -162,22 +161,20 @@ msgstr ""
 #: ckanext/issues/templates/issues/organization_issues.html:23
 #: ckanext/issues/templates/issues/show.html:15
 msgid "Issues"
-msgstr ""
+msgstr "Discussions"
 
 #: ckanext/issues/templates/issues/base_form_page.html:15
 msgid "What are issues?"
-msgstr ""
+msgstr "What are discussions?"
 
 #: ckanext/issues/templates/issues/base_form_page.html:17
-msgid ""
-"<p>Isses are problems reported per dataset and can be filled out by signed-in"
-" users.</p>"
-msgstr ""
+msgid "<p>Isses are problems reported per dataset and can be filled out by signed-in users.</p>"
+msgstr "<p>Discussions are problems reported per dataset and can be filled out by signed-in users.</p>"
 
 #: ckanext/issues/templates/issues/comment_moderation.html:10
 #: ckanext/issues/templates/issues/moderation.html:9
 msgid "Reported issues"
-msgstr ""
+msgstr "Reported discussions"
 
 #: ckanext/issues/templates/issues/comment_moderation.html:23
 msgid "No reported comments."
@@ -251,7 +248,7 @@ msgstr ""
 
 #: ckanext/issues/templates/issues/confirm_delete.html:9
 msgid "Are you sure you want to delete issue - {0}?"
-msgstr ""
+msgstr "Are you sure you want to delete discussion - {0}?"
 
 #: ckanext/issues/templates/issues/confirm_delete.html:12
 #: ckanext/issues/templates/issues/edit.html:34
@@ -261,16 +258,16 @@ msgstr ""
 #: ckanext/issues/templates/issues/dataset.html:26
 #: ckanext/issues/templates/issues/organization_issues.html:28
 msgid "Search issues..."
-msgstr ""
+msgstr "Search discussions..."
 
 #: ckanext/issues/templates/issues/dataset.html:35
 msgid "No issues"
-msgstr ""
+msgstr "No discussions"
 
 #: ckanext/issues/templates/issues/edit.html:3
 #: ckanext/issues/templates/issues/edit.html:5
 msgid "Edit Issue"
-msgstr ""
+msgstr "Edit Discussion"
 
 #: ckanext/issues/templates/issues/edit.html:36
 msgid "Update"
@@ -278,26 +275,26 @@ msgstr ""
 
 #: ckanext/issues/templates/issues/moderation.html:22
 msgid "No reported issues."
-msgstr ""
+msgstr "No reported discussions."
 
 #: ckanext/issues/templates/issues/moderation.html:32
 msgid "Reported Issues"
-msgstr ""
+msgstr "Reported Discussions"
 
 #: ckanext/issues/templates/issues/moderation.html:43
 #: ckanext/issues/templates/issues/moderation.html:45
 msgid "created issue"
-msgstr ""
+msgstr "created discussion"
 
 #: ckanext/issues/templates/issues/organization_issues.html:30
 #: ckanext/issues/templates/snippets/search_result_text.html:44
 msgid "{number} issue found"
-msgstr ""
+msgstr "{number} discussion found"
 
 #: ckanext/issues/templates/issues/organization_issues.html:30
 #: ckanext/issues/templates/snippets/search_result_text.html:45
 msgid "{number} issues found"
-msgstr ""
+msgstr "{number} discussions found"
 
 #: ckanext/issues/templates/issues/organization_issues.html:42
 msgid "Reported"
@@ -325,11 +322,11 @@ msgstr ""
 
 #: ckanext/issues/templates/issues/organization_issues.html:87
 msgid "There are currently no issues for"
-msgstr ""
+msgstr "There are currently no discussions for"
 
 #: ckanext/issues/templates/issues/show.html:19
 msgid "Issue"
-msgstr ""
+msgstr "Discussion"
 
 #: ckanext/issues/templates/issues/show.html:68
 msgid "Edit"
@@ -373,7 +370,7 @@ msgstr ""
 
 #: ckanext/issues/templates/issues/show.html:174
 msgid "opened this issue"
-msgstr ""
+msgstr "opened this discussion"
 
 #: ckanext/issues/templates/issues/show.html:175
 msgid "{number} comment"
@@ -395,7 +392,7 @@ msgstr ""
 
 #: ckanext/issues/templates/issues/show.html:209
 msgid "Are you sure you want to delete this issue?"
-msgstr ""
+msgstr "Are you sure you want to delete this discussion?"
 
 #: ckanext/issues/templates/issues/show.html:210
 msgid "Delete"
@@ -423,7 +420,7 @@ msgstr ""
 
 #: ckanext/issues/templates/issues/show.html:257
 msgid "This issue has been assigned to an administrator for the publisher"
-msgstr ""
+msgstr "This discussion has been assigned to an administrator for the publisher"
 
 #: ckanext/issues/templates/issues/show.html:259
 msgid "No one"
@@ -539,7 +536,7 @@ msgstr ""
 
 #: ckanext/issues/views/issues.py:49
 msgid "Issues have not been enabled for this dataset"
-msgstr ""
+msgstr "Discussions have not been enabled for this dataset"
 
 #: ckanext/issues/views/issues.py:52 ckanext/issues/views/issues.py:70
 msgid "Dataset not found"
@@ -547,31 +544,31 @@ msgstr ""
 
 #: ckanext/issues/views/issues.py:55
 msgid "Unauthorized to view issues for this dataset"
-msgstr ""
+msgstr "Unauthorized to view discussions for this dataset"
 
 #: ckanext/issues/views/issues.py:67
 msgid "Issues have not been enabled for this organization"
-msgstr ""
+msgstr "Discussions have not been enabled for this organization"
 
 #: ckanext/issues/views/issues.py:73
 msgid "Unauthorized to view issues for this organization"
-msgstr ""
+msgstr "Unauthorized to view discussions for this organization"
 
 #: ckanext/issues/views/issues.py:79
 msgid "Please login to add a new issue"
-msgstr ""
+msgstr "Please login to add a new discussion"
 
 #: ckanext/issues/views/issues.py:88
 msgid "Not authorized to add a new issue"
-msgstr ""
+msgstr "Not authorized to add a new discussion"
 
 #: ckanext/issues/views/issues.py:114
 msgid "Your issue has been registered, thank you for the feedback"
-msgstr ""
+msgstr "Your discussion has been registered, thank you for the feedback"
 
 #: ckanext/issues/views/issues.py:132 ckanext/issues/views/issues.py:135
 msgid "Issue not found: {0}"
-msgstr ""
+msgstr "Discussion not found: {0}"
 
 #: ckanext/issues/views/issues.py:187
 msgid "Invalid request"
@@ -587,19 +584,19 @@ msgstr ""
 
 #: ckanext/issues/views/issues.py:227
 msgid "Issue closed"
-msgstr ""
+msgstr "Discussion closed"
 
 #: ckanext/issues/views/issues.py:229
 msgid "Issue re-opened"
-msgstr ""
+msgstr "Discussion re-opened"
 
 #: ckanext/issues/views/issues.py:268
 msgid "Unauthorized to delete issue {0}"
-msgstr ""
+msgstr "Unauthorized to delete discussion {0}"
 
 #: ckanext/issues/views/issues.py:273
 msgid "Issue {0} has been deleted."
-msgstr ""
+msgstr "Discussion {0} has been deleted."
 
 #: ckanext/issues/views/issues.py:291
 msgid "User {0} does not exist"
@@ -607,11 +604,11 @@ msgstr ""
 
 #: ckanext/issues/views/issues.py:322
 msgid "Unauthorized to assign users to issue"
-msgstr ""
+msgstr "Unauthorized to assign users to discussion"
 
 #: ckanext/issues/views/issues.py:337
 msgid "You must be logged in to report issues"
-msgstr ""
+msgstr "You must be logged in to report discussions"
 
 #: ckanext/issues/views/issues.py:349 ckanext/issues/views/issues.py:386
 msgid "Report acknowledged."
@@ -623,15 +620,15 @@ msgstr ""
 
 #: ckanext/issues/views/issues.py:353
 msgid "Issue is visible."
-msgstr ""
+msgstr "Discussion is visible."
 
 #: ckanext/issues/views/issues.py:355
 msgid "Issue is invisible to normal users."
-msgstr ""
+msgstr "Discussion is invisible to normal users."
 
 #: ckanext/issues/views/issues.py:358
 msgid "Issue reported to an administrator"
-msgstr ""
+msgstr "Discussion reported to an administrator"
 
 #: ckanext/issues/views/issues.py:374
 msgid "You must be logged in to report comments"
@@ -651,7 +648,7 @@ msgstr ""
 
 #: ckanext/issues/views/issues.py:418
 msgid "Issue report cleared"
-msgstr ""
+msgstr "Discussion report cleared"
 
 #: ckanext/issues/views/issues.py:423
 msgid "You must be logged in clear abuse reports"

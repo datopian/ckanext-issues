@@ -18,6 +18,10 @@
             {{issue.title}}
           </a>
         </h4>
+        <p class="list-group-item-description">
+          {{ h.truncate(issue.description, 200) }}
+        </p>
+        
         <ul class="list-group-item-meta">
           <li>{{ _('Opened by ') }}<a href="{{ h.url_for('user.read', id=issue.user) }}">{{issue.user}}</a></li>
           <li>

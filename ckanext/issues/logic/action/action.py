@@ -279,8 +279,6 @@ def issue_update(context, data_dict):
 
 @validate(schema.issue_delete_schema)
 def issue_delete(context, data_dict):
-    print(data_dict)
-    print( "INSIDE FUNCTION")
     '''Delete and issues
 
     :param dataset_id: the name or id of the dataset that the issue item
@@ -294,13 +292,14 @@ def issue_delete(context, data_dict):
     dataset_id = data_dict['dataset_id']
     issue_number = data_dict['issue_number']
 
-    issue = issuemodel.Issue.get_by_name_or_id_and_number(
-        dataset_name_or_id=dataset_id,
+    issue = issuemodel.Issue.get_by_number(
+        dataset_id=dataset_id,
         issue_number=issue_number,
         session=session
     )
+
     if not issue:
-        raise toolkit.ObjectNotFound(
+        raise p.toolkit.ObjectNotFound(
             '{issue_number} for dataset {dataset_id} was not found.'.format(
                 issue_number=issue_number,
                 dataset_id=dataset_id,
@@ -308,6 +307,7 @@ def issue_delete(context, data_dict):
         )
     session.delete(issue)
     session.commit()
+    return {'success': True}
 
 
 @p.toolkit.side_effect_free
