@@ -47,25 +47,112 @@ You can add an issue at:
 
     /dataset/{dataset-name-or-id}/issues/new
 
-### Issues API
 
-The issues extension also exposes its functionality as part of the standard [CKAN Action API][api]:
+## API Documentation
 
-[api]: http://docs.ckan.org/en/latest/api/index.html
+The following API actions are provided by this extension. All endpoints are available under `/api/3/action/` and require appropriate authorization (API key in the Authorization header).
 
-Specifically:
+### /api/3/action/issue_show
+Return a single issue/discussion.
+- **Parameters:**
+  - `dataset_id` (string): Dataset name or id
+  - `issue_number` (string): Issue number
+  - `include_reports` (bool, optional): Include abuse reports
+- **Returns:** Dictionary with issue details
 
-    /api/3/action/issue_show
-    /api/3/action/issue_create
-    /api/3/action/issue_update
-    /api/3/action/issue_delete
-    /api/3/action/issue_search
-    /api/3/action/issue_count
-    /api/3/action/issue_comment_create
-    /api/3/action/issue_report
-    /api/3/action/issue_report_clear
-    /api/3/action/issue_comment_report
-    /api/3/action/issue_comment_report_clear
+### /api/3/action/issue_create
+Create a new issue/discussion.
+- **Parameters:**
+  - `title` (string): Title
+  - `description` (string, optional): Description
+  - `dataset_id` (string): Dataset name or id
+- **Returns:** Dictionary with created issue
+
+### /api/3/action/issue_update
+Update an existing issue/discussion.
+- **Parameters:**
+  - `title` (string): Title
+  - `description` (string, optional): Description
+  - `dataset_id` (string): Dataset name or id
+  - `issue_number` (int): Issue number
+- **Returns:** Dictionary with updated issue
+
+### /api/3/action/issue_delete
+Delete an issue/discussion.
+- **Parameters:**
+  - `dataset_id` (string): Dataset name or id
+  - `issue_number` (int): Issue number
+- **Returns:** `{success: True}`
+
+### /api/3/action/issue_search
+Search issues/discussions.
+- **Parameters:**
+  - `dataset_id` (string, optional): Dataset name or id
+  - `organization_id` (string, optional): Organization id
+  - `include_sub_organizations` (bool, optional)
+  - `q` (string, optional): Query string (searches titles)
+  - `sort` (string, optional): 'newest', 'oldest', 'most_commented', etc.
+  - `limit` (int, optional)
+  - `offset` (int, optional)
+  - `visibility` (string, optional): 'visible', 'hidden', ''
+  - `include_datasets` (bool, optional)
+  - `include_count` (bool, optional)
+  - `include_results` (bool, optional)
+- **Returns:** `{count: int, results: [issue_dict, ...]}`
+
+### /api/3/action/issue_count
+Count issues/discussions. (Alias for issue_search with `include_count=true` and `include_results=false`)
+- **Parameters:** Same as `issue_search`
+- **Returns:** `{count: int}`
+
+### /api/3/action/issue_comment_create
+Add a comment to an issue/discussion.
+- **Parameters:**
+  - `comment` (string): Comment text
+  - `issue_number` (int): Issue number
+  - `dataset_id` (string): Dataset name or id
+- **Returns:** Dictionary with created comment
+
+### /api/3/action/issue_report
+Report an issue/discussion as abuse/spam.
+- **Parameters:**
+  - `dataset_id` (string): Dataset name or id
+  - `issue_number` (int): Issue number
+- **Returns:** Abuse report info (dict)
+
+### /api/3/action/issue_report_clear
+Clear abuse reports on an issue/discussion.
+- **Parameters:**
+  - `dataset_id` (string): Dataset name or id
+  - `issue_number` (int): Issue number
+- **Returns:** `True` on success
+
+### /api/3/action/issue_comment_report
+Report a comment as abuse/spam.
+- **Parameters:**
+  - `comment_id` (string): Comment id
+- **Returns:** Abuse report info (dict)
+
+### /api/3/action/issue_comment_report_clear
+Clear abuse reports on a comment.
+- **Parameters:**
+  - `dataset_id` (string): Dataset name or id
+  - `comment_id` (int): Comment id
+- **Returns:** `True` on success
+
+### /api/3/action/issue_report_show
+Fetch abuse reports for an issue/discussion.
+- **Parameters:**
+  - `dataset_id` (string): Dataset name or id
+  - `issue_number` (int): Issue number
+- **Returns:** List of user ids who reported
+
+### /api/3/action/issue_comment_search
+Search comments (optionally only hidden ones).
+- **Parameters:**
+  - `organization_id` (string, optional): Organization id
+  - `only_hidden` (bool, optional): Only hidden comments
+- **Returns:** List of comment dicts
 
 ## Configuration
 
@@ -111,4 +198,4 @@ its dev requirements). Contributions welcome.
 To run full production tests on postgres run. These are the tests that git actions will run
 
     pytest --ckan-ini=test.ini ckanext/issues/tests
-    
+
