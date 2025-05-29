@@ -53,7 +53,6 @@ def issue_comment_create(context, data_dict):
     return {"success": bool(context["user"])}
     # return issue_auth(context, data_dict, 'package_create')
 
-
 @p.toolkit.auth_sysadmins_check
 def issue_comment_delete(context, data_dict):
     """Checks that we can delete the issue comment.
@@ -62,6 +61,12 @@ def issue_comment_delete(context, data_dict):
     can delete the comment.
     """
     model = context["model"]
+    user = context["user"]
+    if not user:
+        return {
+            "success": False,
+            "msg": p.toolkit._("Unauthorized to delete issue comment"),
+        }
     comment = issue_model.IssueComment.get(
         data_dict["comment_id"],
     )
@@ -76,8 +81,7 @@ def issue_comment_delete(context, data_dict):
         return {"success": True}
 
     except p.toolkit.NotAuthorized:
-
-        user_dict = model.User.get(context["user"])
+        user_dict = model.User.get(user)
         if comment.user_id == user_dict.id:
             return {"success": True}
         else:
