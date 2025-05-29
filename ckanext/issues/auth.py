@@ -55,43 +55,6 @@ def issue_comment_create(context, data_dict):
 
 
 @p.toolkit.auth_sysadmins_check
-def issue_comment_update(context, data_dict):
-    """Checks that we can update the issue comment.
-
-    Those with who is owner of the issue comment and admin
-    can update the comment.
-    """
-    print("000000",  data_dict)
-    model = context["model"]
-    comment = issue_model.IssueComment.get(
-        data_dict["comment_id"],
-    )
-    try:
-        p.toolkit.check_access(
-            "package_update",
-            context,
-            {
-                "id": data_dict["dataset_id"],
-            },
-        )
-        return {"success": True}
-
-    except p.toolkit.NotAuthorized:
-        user_dict = model.User.get(context["user"])
-        if comment.user_id == user_dict.id:
-            return {"success": True}
-        else:
-            return {
-                "success": False,
-                "msg": p.toolkit._(
-                    "User {user} not authorized for action on comment {comment}".format(
-                        user=str(context["user"]), comment=data_dict["comment_id"]
-                    )
-                ),
-            }
-
-
-@p.toolkit.auth_sysadmins_check
 def issue_comment_delete(context, data_dict):
     """Checks that we can delete the issue comment.
 

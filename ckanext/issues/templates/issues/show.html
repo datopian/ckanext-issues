@@ -57,22 +57,6 @@ dataset - package object
     <div class="issue-comment-content{% if comment.visibility == 'hidden' %} issue-abuse{% endif %}">
       {{ h.render_markdown(comment.comment) }}
     </div>
-    <!-- <button class="btn btn-xs btn-default issue-comment-edit-button" type="button" data-module="issue-comment-edit-button" data-comment-id="{{ comment.id }}" style="margin-top:5px;">
-      <i class="fa fa-pencil"></i> {{ _('Edit') }}
-    </button> -->
-
-    <!-- <div class="issue-comment-content-edit-{{ comment.id }}" padding-top="10px" style="display:boock;">
-        <form id="edit-comment-form-{{ comment.id }}" method="post" action="{{ h.url_for('issues.edit_comment', dataset_id=dataset.name, issue_number=issue.number, comment_id=comment.id) }}" style="display:block; margin-top:10px;">
-        {{ form.markdown(
-            name='comment',
-            label=_('Comment'),
-            value=comment.comment,
-            placeholder=_('Leave a comment'),
-            attrs={'class': 'form-control'}
-        ) }}        <button class="btn btn-success btn-xs" type="submit" style="margin-top:5px;">{{ _('Save') }}</button>
-        <button class="btn btn-default btn-xs" type="button" style="margin-top:5px;">{{ _('Cancel') }}</button>
-      </form>
-    </div> -->
   </div>
 </div>
 {% endmacro %}

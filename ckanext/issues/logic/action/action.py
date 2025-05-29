@@ -512,15 +512,6 @@ def issue_comment_create(context, data_dict):
     return issue_comment.as_dict()
 
 
-@validate(schema.issue_comment_schema)
-def issue_comment_update(context, data_dict):
-    """Update an issue comment."""
-    p.toolkit.check_access("issue_comment_update", context, data_dict)
-    issuemodel.IssueComment.update(
-        data_dict["comment_id"],
-        data_dict["comment"],
-    )
-
 @validate(schema.issue_comment_report_schema)
 def issue_comment_delete(context, data_dict):
     p.toolkit.check_access("issue_comment_delete", context, data_dict)
