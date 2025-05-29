@@ -79,6 +79,7 @@ def issue_search_schema():
 
 def issue_comment_schema():
     return {
+        'comment_id': [ignore_missing, issue_comment_exists],
         'comment': [not_missing],
         'dataset_id': [not_missing, package_exists, as_package_id],
         'issue_number': [not_missing, is_positive_integer],
