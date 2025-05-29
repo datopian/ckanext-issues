@@ -390,6 +390,33 @@ class IssueComment(domain_object.DomainObject):
     def get(cls, reference, session=Session):
         """Returns a Issue comment object referenced by its id."""
         return session.query(cls).filter(cls.id == reference).first()
+    
+    @classmethod
+    def delete(cls, reference, session=Session):
+        """Deletes a Issue comment object referenced by its id."""
+        comment = session.query(cls).filter(cls.id == reference).first()
+        if comment:
+            try:
+                session.delete(comment)
+                session.flush()
+                session.commit()
+                return True
+            except Exception as e:
+                session.rollback()
+                raise e
+        return False
+
+    @classmethod
+    def update(cls, reference, comment_text, session=Session):
+        """Updates a Issue comment object referenced by its id."""
+        comment = session.query(cls).filter(cls.id == reference).first()
+        if comment:
+            comment.comment = comment_text
+            session.add(comment)
+            session.flush()
+            session.commit()
+            return comment
+        return None
 
     @classmethod
     def get_comments_for_issue(cls, issue_id):

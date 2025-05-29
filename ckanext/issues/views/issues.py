@@ -429,6 +429,30 @@ def report_clear(dataset_id, issue_number):
         except toolkit.ObjectNotFound:
             toolkit.abort(404)
 
+def delete_comment(dataset_id, issue_number, comment_id):
+    if request.method == 'POST':
+        try:
+            toolkit.get_action('issue_comment_delete')(
+                data_dict={
+                    'comment_id': comment_id,
+                    'issue_number': issue_number,
+                    'dataset_id': dataset_id
+                }
+            )
+            h.flash_success(_('Comment deleted'))
+            return p.toolkit.redirect_to('issues.show_issue',
+                                    dataset_id=dataset_id,
+                                    issue_number=issue_number)
+        except toolkit.NotAuthorized:
+            msg = _('You must be logged in to delete comments').format(
+                issue_number
+            )
+            toolkit.abort(401, msg)
+        except toolkit.ValidationError:
+            toolkit.abort(404)
+        except toolkit.ObjectNotFound:
+            toolkit.abort(404)
+
 def comment_report_clear(dataset_id, issue_number, comment_id):
     dataset = _before_dataset(dataset_id)
     if request.method == 'POST':
@@ -635,6 +659,9 @@ issues.add_url_rule('/dataset/<dataset_id>/discussion/<int:issue_number>/comment
 
 # Clear comment from report
 issues.add_url_rule('/dataset/<dataset_id>/discussion/<int:issue_number>/comment/<comment_id>/report_clear', view_func=comment_report_clear, methods=['GET', 'POST'])
+
+# Delete comment 
+issues.add_url_rule('/dataset/<dataset_id>/discussion/<int:issue_number>/comment/<comment_id>/delete', view_func=delete_comment, methods=['GET', 'POST'])
 
 # Show all issues
 issues.add_url_rule('/discussion', view_func=all_issues_page, methods=['GET'])

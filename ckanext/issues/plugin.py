@@ -77,6 +77,7 @@ class IssuesPlugin(p.SingletonPlugin, DefaultTranslation):
             "issues_list": helpers.issues_list,
             "issues_user_has_reported_issue": helpers.issues_user_has_reported_issue,
             "issues_user_is_owner": helpers.issues_user_is_owner,
+            "issue_comment_is_owner": helpers.issue_comment_is_owner,
             "issues_users_who_reported_issue": helpers.issues_users_who_reported_issue,
         }
 
@@ -94,6 +95,7 @@ class IssuesPlugin(p.SingletonPlugin, DefaultTranslation):
             "issue_show": action.issue_show,
             "issue_create": action.issue_create,
             "issue_comment_create": action.issue_comment_create,
+            "issue_comment_delete": action.issue_comment_delete,
             "issue_update": action.issue_update,
             "issue_report": action.issue_report,
             "issue_report_clear": action.issue_report_clear,
@@ -113,6 +115,7 @@ class IssuesPlugin(p.SingletonPlugin, DefaultTranslation):
             "issue_create": auth.issue_create,
             "issue_delete": auth.issue_delete,
             "issue_comment_create": auth.issue_comment_create,
+            "issue_comment_delete": auth.issue_comment_delete,
             "issue_update": auth.issue_update,
             "issue_report": auth.issue_report,
             "issue_report_clear": auth.issue_report_clear,

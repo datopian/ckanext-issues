@@ -154,6 +154,15 @@ Search comments (optionally only hidden ones).
   - `only_hidden` (bool, optional): Only hidden comments
 - **Returns:** List of comment dicts
 
+### /api/3/action/issue_comment_delete
+Delete a comment.
+- **Parameters:**
+  - `comment_id` (string): Comment id
+  - `dataset_id` (string): Dataset name or id
+  - `issue_number` (int): Issue number
+- **Returns:** `{success: True}`
+
+
 ## Configuration
 
 To switch-on notifications, you should set the following option in your
