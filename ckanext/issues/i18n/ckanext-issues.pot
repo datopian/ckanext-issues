@@ -603,7 +603,7 @@ msgstr ""
 
 #: ckanext/issues/templates/issues/show.html:258
 msgid "This issue has been assigned to an administrator for the publisher"
-msgstr ""
+msgstr "This comment has been assigned to an administrator for review and, where required, response."
 
 #: ckanext/issues/templates/issues/show.html:260
 msgid "No one"
