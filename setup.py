@@ -81,7 +81,6 @@ setup(
     entry_points="""
     [ckan.plugins]
     issues=ckanext.issues.plugin:IssuesPlugin
-
     [babel.extractors]
     ckan = ckan.lib.extract:extract_ckan
     """,

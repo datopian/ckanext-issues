@@ -30,7 +30,7 @@
   <li>{% link_for _('Organizations'), controller='organization', action='index' %}</li>
   <li>{% link_for organization.display_name|truncate(35), controller='organization', action='read', id=organization.name %}</li>
   <li>{% link_for 'Issues', named_route='issues.issues_for_organization', org_id=organization.name %}</li>
-  <li class="active">Reported Issues</li>
+  <li class="active">Reported Discussions</li>
 {% endblock %}
 
 {%- macro comment_description(comment) %}

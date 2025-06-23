@@ -23,7 +23,7 @@ dataset - package object
   <meta property="og:image" content="{{ issue.user.gravatar_url }}">
 {% endblock -%}
 
-{% block breadcrumb_item %}{{ h.nav_link(issue.number, named_route='issues.show_issue', dataset_id=dataset.name, issue_number=issue.number) }}
+{% block breadcrumb_item %}{{ h.nav_link(issue.title, named_route='issues.show_issue', dataset_id=dataset.name, issue_number=issue.number) }}
 {% endblock %}
  
 {% set can_edit_issue = h.check_access('issue_update', {'can_edit': True, 'dataset_id': dataset.id, 'issue_number': issue.number }) %}

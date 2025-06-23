@@ -601,43 +601,43 @@ def _search_issues(dataset_id=None,
 
 
 # Show all issues for a dataset
-issues.add_url_rule('/dataset/<dataset_id>/issues', view_func=dataset, methods=['GET'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions', view_func=dataset, methods=['GET'])
 
 # New issue
-issues.add_url_rule('/dataset/<dataset_id>/issues/new', view_func=new, methods=['GET', 'POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/new', view_func=new, methods=['GET', 'POST'])
 
 # Shows an issue
-issues.add_url_rule('/dataset/<dataset_id>/issues/<int:issue_number>', view_func=show_issue, methods=['GET'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>', view_func=show_issue, methods=['GET'])
 
 # Add issue with resources
-issues.add_url_rule('/dataset/<dataset_id>/issues/new/<resource_id>', view_func=new, methods=['GET', 'POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/new/<resource_id>', view_func=new, methods=['GET', 'POST'])
 
 # Edit an issue
-issues.add_url_rule('/dataset/<dataset_id>/issues/<int:issue_number>/edit', view_func=edit, methods=['GET', 'POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/edit', view_func=edit, methods=['GET', 'POST'])
 
 # Delete an issue
-issues.add_url_rule('/dataset/<dataset_id>/issues/<int:issue_number>/delete', view_func=delete, methods=['GET', 'POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/delete', view_func=delete, methods=['GET', 'POST'])
 
 # Assign an issue
-issues.add_url_rule('/dataset/<dataset_id>/issues/<int:issue_number>/assign', view_func=assign, methods=['POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/assign', view_func=assign, methods=['POST'])
 
 # Comment on an issue
-issues.add_url_rule('/dataset/<dataset_id>/issues/<int:issue_number>/comments', view_func=comments, methods=['POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/comments', view_func=comments, methods=['POST'])
 
 # Report an issue
-issues.add_url_rule('/dataset/<dataset_id>/issues/<int:issue_number>/report', view_func=report, methods=['GET', 'POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/report', view_func=report, methods=['GET', 'POST'])
 
 # Clear issue report
-issues.add_url_rule('/dataset/<dataset_id>/issues/<int:issue_number>/report_clear', view_func=report_clear, methods=['GET', 'POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/report_clear', view_func=report_clear, methods=['GET', 'POST'])
 
 # Report comment
-issues.add_url_rule('/dataset/<dataset_id>/issues/<int:issue_number>/comment/<comment_id>/report', view_func=report_comment, methods=['GET', 'POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/comment/<comment_id>/report', view_func=report_comment, methods=['GET', 'POST'])
 
 # Clear comment from report
-issues.add_url_rule('/dataset/<dataset_id>/issues/<int:issue_number>/comment/<comment_id>/report_clear', view_func=comment_report_clear, methods=['GET', 'POST'])
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/comment/<comment_id>/report_clear', view_func=comment_report_clear, methods=['GET', 'POST'])
 
 # Show all issues
-issues.add_url_rule('/issues', view_func=all_issues_page, methods=['GET'])
+issues.add_url_rule('/discussions', view_func=all_issues_page, methods=['GET'])
 
 # All issues for an organization
-issues.add_url_rule('/organization/<org_id>/issues', view_func=issues_for_organization, methods=['GET'])
+issues.add_url_rule('/organization/<org_id>/discussions', view_func=issues_for_organization, methods=['GET'])
