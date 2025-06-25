@@ -530,6 +530,7 @@ def issue_comment_create(context, data_dict):
                 # TypeError occurs when we're running command from ckanapi
                 log.debug(e)
 
+    comment_dict['issue_number'] = issue.get('number', None)
     _create_issues_activity(context, data_dict['dataset_id'], 'changed issue', comment_dict)
     log.debug('Created issue comment %s' % (issue.id))
     return issue_comment.as_dict()
