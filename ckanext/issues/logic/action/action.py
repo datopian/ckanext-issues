@@ -531,6 +531,7 @@ def issue_comment_create(context, data_dict):
                 log.debug(e)
 
     comment_dict['issue_number'] = issue.get('number', None)
+    comment_dict['comment_id'] = issue_comment.as_dict().get('id', None)
     _create_issues_activity(context, data_dict['dataset_id'], 'changed issue', comment_dict)
     log.debug('Created issue comment %s' % (issue.id))
     return issue_comment.as_dict()
