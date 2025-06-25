@@ -46,7 +46,7 @@ dataset - package object
 {% endmacro %}
 
 {%- macro issue_comment(comment) %}
-<div class="issue-comment-wrapper">
+<div class="issue-comment-wrapper" id="issue-comment-{{comment.id}}">
   <a href="{{comment.user.ckan_url}}"
     class="issue-comment-avatar">
     {{comment.user.gravatar}}
