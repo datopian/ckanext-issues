@@ -1,12 +1,12 @@
-A user '{{ user.fullname or user.name }}' has added a comment to one of your issues on {{ site_title }}.
+A user '{{ user.fullname or user.name }}' has added a comment to one of your discussions on {{ site_title }}.
 
 The dataset is: {{ dataset.title }}
-The issue is: {{ issue_subject }}
+The discussion is: {{ issue_subject }}
 The comment is:
 
 > {{ comment.comment|wordwrap(width=76)|replace('\n', '\n> '|safe) }}
 
-In order to respond to the comment, please see the issue at: {{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Once the issue has been resolved, click 'Close issue'.
+In order to respond to the comment, please see the discussion at: {{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}. Once the discussion has been resolved, click 'Close discussion'.
 
 Thank you,
 
@@ -14,5 +14,5 @@ The {{ site_title }} team
 
 --
 
-Issue: {{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}
+Discussion: {{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, qualified=True) }}
 Dataset: {{ h.url_for('dataset.read', id=dataset.name, qualified=True) }}
