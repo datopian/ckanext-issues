@@ -163,7 +163,8 @@ def _get_recipients(context, dataset):
     roles = authz.get_roles_with_permission('update_dataset')
     for role in roles:
         members = p.toolkit.get_action('member_list')(
-            context,
+            {"ignore_auth": True}
+            ,
             data_dict={
                 'id': organization,
                 'object_type': 'user',
