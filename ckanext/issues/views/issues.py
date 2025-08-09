@@ -45,8 +45,9 @@ def _before_dataset(dataset_id):
         # keep the above lines to keep current code working till it's all
         # refactored out, otherwise, we should pass pkg as an extra_var
         # directly that's returned from this function
-        if not issues_helpers.issues_enabled(pkg):
-            p.toolkit.abort(404, _('Issues have not been enabled for this dataset'))
+        pkg_name = pkg['name']
+        if not issues_helpers.issues_enabled(pkg) or pkg_name.startswith('foi'):
+            p.toolkit.abort(404, _('Discussions have not been enabled for this dataset'))
         return pkg
     except logic.NotFound:
         p.toolkit.abort(404, _('Dataset not found'))
@@ -244,6 +245,8 @@ def dataset(dataset_id):
     sorted by category.
     """
     pkg = _before_dataset(dataset_id)
+
+    
     try:
         extra_vars = issues_for_dataset(dataset_id, request.args)
         extra_vars['pkg_dict'] = pkg
