@@ -250,12 +250,12 @@ def issue_create(context, data_dict):
 
         for i, recipient in enumerate(recipients):
             body = _get_issue_email_body(issue, subject, user_obj, recipient)
-            user_obj = model.User.get(recipient['user_id'])
+            recipient_user = model.User.get(recipient['user_id'])
             if i == 0:
                 log.debug('Mailing to %s (and %s others):\n%s',
                           user_obj.email, len(recipients) - 1, body)
             try:
-                mailer.mail_user(user_obj, subject, body)
+                mailer.mail_user(recipient_user, subject, body)
             except (mailer.MailerException, TypeError) as e:
                 # TypeError occurs when we're running command from ckanapi
                 log.debug(e)
