@@ -491,7 +491,9 @@ def issue_comment_create(context, data_dict):
     '''
     p.toolkit.check_access('issue_comment_create', context, data_dict)
     user = context['user']
+    log.info('user: {}'.format(user))
     user_obj = model.User.get(user)
+    log.info('user_obj: {}'.format(user))
 
     issue = issuemodel.Issue.get_by_name_or_id_and_number(
         dataset_name_or_id=data_dict['dataset_id'],
@@ -524,9 +526,9 @@ def issue_comment_create(context, data_dict):
             body = _get_comment_email_body(
                 issue_comment, subject, user_obj, recipient)
 
-            user_obj = model.User.get(recipient['user_id'])
+            recipient_user = model.User.get(recipient['user_id'])
             try:
-                mailer.mail_user(user_obj, subject, body)
+                mailer.mail_user(recipient_user, subject, body)
             except (mailer.MailerException, TypeError) as e:
                 # TypeError occurs when we're running command from ckanapi
                 log.debug(e)
