@@ -565,7 +565,7 @@ meta.mapper(
         'issue': relation(
             Issue,
             backref=backref('comments', cascade='all, delete-orphan', 
-                           order_by=issue_comment_table.c.created.desc()),
+                           order_by=issue_comment_table.c.created.asc()),
             primaryjoin=issue_comment_table.c.issue_id.__eq__(Issue.id)
         ),
     }
