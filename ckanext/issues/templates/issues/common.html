@@ -22,7 +22,8 @@
           <li>{{ _('Opened by ') }}<a href="{{ h.url_for('user.read', id=issue.user) }}">{{issue.user}}</a></li>
           <li>
             <i class="fa fa-clock"></i>
-            <span class="timeago" title="{{h.render_datetime(issue.created)}}"> {{ _('updated') }} {{ h.time_ago_from_timestamp(issue.created) }}</span>
+            {% set display_date = issue.updated or issue.created %}
+            <span class="timeago" title="{{h.render_datetime(display_date)}}"> {{ _('updated') }} {{ h.time_ago_from_timestamp(display_date) }}</span>
           </li>
           <li>
             <i class="fa fa-comments"></i>

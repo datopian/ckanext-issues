@@ -146,9 +146,9 @@ class IssueFilter(enum.Enum):
             cls.most_commented:
                 lambda q: q.order_by(func.count(IssueComment.id).desc()),
             cls.recently_updated:
-                lambda q: q.order_by(func.max(IssueComment.created).asc()),
+                lambda q: q.order_by(func.max(IssueComment.created).desc().nullslast()),
             cls.least_recently_updated:
-                lambda q: q.order_by(func.max(IssueComment.created).desc()),
+                lambda q: q.order_by(func.max(IssueComment.created).asc().nullslast()),
         }
         try:
             return sort_functions[issue_filter]
@@ -374,6 +374,9 @@ class Issue(domain_object.DomainObject):
 
         if isinstance(updated, datetime):
             out['updated'] = updated.isoformat()
+        else:
+            # Fallback to created date if no comments exist
+            out['updated'] = self.created.isoformat() if isinstance(self.created, datetime) else out.get('created')
 
         if include_dataset:
             pkg = self.dataset
