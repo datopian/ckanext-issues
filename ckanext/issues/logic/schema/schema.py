@@ -85,6 +85,14 @@ def issue_comment_schema():
         '__after': [issue_number_exists_for_dataset],
     }
 
+def issue_comment_delete_schema():
+    return {
+        'dataset_id': [not_missing, package_exists, as_package_id],
+        'issue_number': [not_missing, is_positive_integer],
+        '__after': [issue_number_exists_for_dataset],
+        'comment_id': [not_missing, issue_comment_exists],
+    }
+
 
 def issue_report_schema():
     return {

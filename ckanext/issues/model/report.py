@@ -61,7 +61,7 @@ def define_report_tables(models):
             properties={
                 table_name: relation(
                     model_,
-                    backref=backref('abuse_reports'),
+                    backref=backref('abuse_reports', cascade='all, delete-orphan'),
                     primaryjoin=report_table.c.parent_id == model_.id
                 ),
             }

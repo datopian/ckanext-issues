@@ -8,7 +8,7 @@ import ckan.plugins as p
 from ckan.lib.plugins import DefaultTranslation
 from ckan.plugins import implements, toolkit
 from ckan.lib.helpers import ckan_version
-from ckanext.issues.logic.action.action import issue_search, issue_create, issue_delete, issue_comment_create, issue_show, issue_update, issue_comment_report, issue_report_show, issue_comment_search, issue_report, issue_report_clear,     organization_users_autocomplete
+from ckanext.issues.logic.action.action import issue_search, issue_create, issue_delete, issue_comment_create, issue_comment_delete, issue_show, issue_update, issue_comment_report, issue_report_show, issue_comment_search, issue_report, issue_report_clear,     organization_users_autocomplete
 
 from ckanext.issues.views.issues import issues
 from ckanext.issues.views.moderation import moderation
@@ -94,6 +94,7 @@ class IssuesPlugin(p.SingletonPlugin, DefaultTranslation):
             'issue_show': issue_show,
             'issue_create': issue_create,
             'issue_comment_create': issue_comment_create,
+            'issue_comment_delete': issue_comment_delete,
             'issue_update': issue_update,
             'issue_report': issue_report,
             'issue_report_clear': issue_report_clear,
@@ -111,6 +112,7 @@ class IssuesPlugin(p.SingletonPlugin, DefaultTranslation):
             'issue_create': auth.issue_create,
             'issue_delete': auth.issue_delete,
             'issue_comment_create': auth.issue_comment_create,
+            'issue_comment_delete': auth.issue_comment_delete,
             'issue_update': auth.issue_update,
             'issue_report': auth.issue_report,
             'issue_report_clear': auth.issue_report_clear,

@@ -138,6 +138,26 @@ def issue_admin(context, data_dict):
     return issue_auth(context, data_dict)
 
 
+@p.toolkit.auth_disallow_anonymous_access
+def issue_comment_delete(context, data_dict):
+    try:
+        comment_id = data_dict['comment_id']
+    except KeyError:
+        return {'success': False, 'msg': 'Missing comment_id'}
+
+    comment = issue_model.IssueComment.get(comment_id, session=context['session'])
+    if not comment:
+        return {'success': False, 'msg': 'Comment not found'}
+
+    user = context['user']
+    user_obj = model.User.get(user)
+    
+    if user_obj and comment.user_id == user_obj.id:
+        return {'success': True}
+
+    return issue_auth(context, data_dict)
+
+
 @p.toolkit.auth_allow_anonymous_access
 def issue_comment_search(context, data_dict):
     return {'success': True}

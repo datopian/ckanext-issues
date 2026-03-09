@@ -835,3 +835,56 @@ def issue_comment_search(context, data_dict):
         comments.append(comment_dict)
 
     return comments
+
+@validate(schema.issue_comment_delete_schema)
+def issue_comment_delete(context, data_dict):
+    '''Delete an issue comment
+
+    :param dataset_id: the name or id of the dataset that the issue item
+        belongs to
+    :type dataset_id: string
+    :param issue_number: the number of the issue.
+    :type issue_number: integer
+    :param comment_id: the id of the comment to delete
+    :type comment_id: string
+    '''
+    p.toolkit.check_access('issue_comment_delete', context, data_dict)
+    session = context['session']
+    dataset_id = data_dict['dataset_id']
+    issue_number = data_dict['issue_number']
+    comment_id = data_dict['comment_id']
+
+    issue = issuemodel.Issue.get_by_name_or_id_and_number(
+        dataset_name_or_id=dataset_id,
+        issue_number=issue_number,
+        session=session
+    )
+    if not issue:
+        raise p.toolkit.ObjectNotFound(
+            'Issue {issue_number} for dataset {dataset_id} was not found.'.format(
+                issue_number=issue_number,
+                dataset_id=dataset_id,
+            )
+        )
+        
+    comment = issuemodel.IssueComment.get(comment_id, session=session)
+    if not comment:
+         raise p.toolkit.ObjectNotFound(
+            'Comment {comment_id} was not found.'.format(
+                comment_id=comment_id
+            )
+        )
+
+    if comment.issue_id != issue.id:
+        raise p.toolkit.ObjectNotFound(
+            ('Comment {comment_id} for issue {issue_number} and '
+             'dataset {dataset_id} was not found.').format(
+                comment_id=comment_id,
+                issue_number=issue_number,
+                dataset_id=dataset_id
+            )
+        )
+         
+    session.delete(comment)
+    session.commit()
+    _create_issues_activity(context, dataset_id, 'issue comment deleted', comment.as_dict())

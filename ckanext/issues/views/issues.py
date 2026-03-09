@@ -455,6 +455,48 @@ def comment_report_clear(dataset_id, issue_number, comment_id):
         except toolkit.ObjectNotFound:
             toolkit.abort(404)
 
+def comment_delete(dataset_id, issue_number, comment_id):
+    dataset = _before_dataset(dataset_id)
+    delete_data_dict = {
+        'issue_number': issue_number,
+        'dataset_id': dataset_id,
+        'comment_id': comment_id
+    }
+
+    if not h.check_access('issue_comment_delete', delete_data_dict):
+        msg = _('Unauthorized to delete comment {0}'.format(comment_id))
+        toolkit.abort(401, msg)
+
+    if 'cancel' in request.form:
+        return p.toolkit.redirect_to('issues.show_issue',
+                                dataset_id=dataset_id,
+                                issue_number=issue_number)
+
+    if request.method == 'POST':
+        try:
+            toolkit.get_action('issue_comment_delete')(data_dict=delete_data_dict)
+        except toolkit.NotAuthorized:
+            msg = _('Unauthorized to delete comment {0}'.format(comment_id))
+            toolkit.abort(401, msg)
+            
+        except toolkit.ObjectNotFound:
+            toolkit.abort(404)
+
+        h.flash_notice(
+            _('Comment has been deleted.')
+        )
+        return p.toolkit.redirect_to('issues.show_issue',
+                                dataset_id=dataset_id,
+                                issue_number=issue_number)
+    else:
+        # For simplicity, we can reuse the issue delete confirmation or make a new one
+        return render('issues/confirm_delete_comment.html',
+                        extra_vars={
+                            'issue_number': issue_number,
+                            'comment_id': comment_id,
+                            'pkg': dataset,
+                        })
+
 def issues_for_organization(org_id):
     """
     Display a page containing a list of all issues for a given organization
@@ -638,6 +680,9 @@ issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/commen
 
 # Clear comment from report
 issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/comment/<comment_id>/report_clear', view_func=comment_report_clear, methods=['GET', 'POST'])
+
+# Delete a comment
+issues.add_url_rule('/dataset/<dataset_id>/discussions/<int:issue_number>/comment/<comment_id>/delete', view_func=comment_delete, methods=['GET', 'POST'])
 
 # Show all issues
 issues.add_url_rule('/discussions', view_func=all_issues_page, methods=['GET'])

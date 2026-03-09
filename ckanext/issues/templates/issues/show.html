@@ -146,6 +146,14 @@ endfor %}">
             </div>
           {% endif %}
         {% endif %}
+        
+        {% if not header_is_for_issue and h.check_access('issue_comment_delete', {'issue_number': issue.number, 'dataset_id': dataset.id, 'comment_id': issue_or_comment.id}) %}
+          <div class="issue-comment-action" id="issue-comment-delete-button">
+            <a href="{{h.url_for('issues.comment_delete', dataset_id=dataset.name, issue_number=issue.number, comment_id=issue_or_comment.id)}}" class="btn btn-xs btn-danger" title="{{ _('Delete Comment') }}" data-module="confirm-action" data-module-i18n="{{ h.dump_json({'content': _('Are you sure you want to delete this comment?')}) }}">
+              <i class="fa fa-trash"></i>
+            </a>
+          </div>
+        {% endif %}
       </div>
       {% if h.issues_user_is_owner(user=issue_or_comment.user, dataset_id=dataset.id) %}
         <div class="issue-comment-label">

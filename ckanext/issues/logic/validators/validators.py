@@ -119,7 +119,8 @@ object_id_validators = {
     'new issue': package_id_exists,
     'issue closed': package_id_exists,
     'issue reopened': package_id_exists,
-    'issue deleted': package_id_exists 
+    'issue deleted': package_id_exists,
+    'issue comment deleted': package_id_exists
 }
 
 
