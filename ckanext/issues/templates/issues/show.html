@@ -30,6 +30,18 @@ dataset - package object
 {% set is_publisher = h.check_access('package_update', {'id': dataset.id }) %}
 {% import 'macros/form.html' as form %}
 
+{# Comments are shown newest first by default; ?sort=oldest reads the thread
+   chronologically. The original post always stays at the top. #}
+{% set comment_sort = 'oldest' if h.get_request_param('sort') == 'oldest' else 'newest' %}
+
+{%- macro comment_list(comments) %}
+  {% for comment in comments %}
+    {% if comment.visibility == 'visible' or can_edit_issue %}
+      {{ issue_comment(comment) }}
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
 {%- macro issue_description(issue) %}
 <div class="issue-comment-wrapper">
   <a href="{{issue.user.ckan_url}}"
@@ -162,8 +174,9 @@ endfor %}">
       {% endif %}
       <div class="issue-header-text">
         <a href="{{issue_or_comment.user.ckan_url}}" class="author">{{ issue_or_comment.user.name}}</a>
-        {{ _('commented') }}
-        <span title="{{issue_or_comment.created}}">{{ h.time_ago_from_timestamp(issue_or_comment.created).lower() }}</span>
+        {{ _('commented on') }}
+        <time class="issue-comment-date" datetime="{{ h.render_datetime(issue_or_comment.created, '%Y-%m-%dT%H:%M:%S') }}">{{ h.render_datetime(issue_or_comment.created, with_hours=True) }}</time>
+        <span class="issue-comment-time-ago">({{ h.time_ago_from_timestamp(issue_or_comment.created).lower() }})</span>
       </div>
     </div>
 {% endmacro %}
@@ -237,11 +250,25 @@ endfor %}">
 
       {{ issue_description(issue) }}
 
-      {% for comment in issue.comments %}
-        {% if comment.visibility == 'visible' or can_edit_issue %}
-          {{ issue_comment(comment) }}
-        {% endif %}
-      {% endfor %}
+      {% if comment_count > 1 %}
+      <div class="issue-comment-sort">
+        <span class="issue-comment-sort-label">{{ _('Sort comments:') }}</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="{{ _('Sort comments') }}">
+          <a href="{{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number) }}"
+             class="btn {{ 'btn-primary active' if comment_sort == 'newest' else 'btn-default' }}"
+             {% if comment_sort == 'newest' %}aria-current="true"{% endif %}>{{ _('Newest first') }}</a>
+          <a href="{{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, sort='oldest') }}"
+             class="btn {{ 'btn-primary active' if comment_sort == 'oldest' else 'btn-default' }}"
+             {% if comment_sort == 'oldest' %}aria-current="true"{% endif %}>{{ _('Oldest first') }}</a>
+        </div>
+      </div>
+      {% endif %}
+
+      {# Oldest first: reply box after the comments, as before. Newest first:
+         reply box above them, so a new comment lands right below it. #}
+      {% if comment_sort == 'oldest' %}
+        {{ comment_list(issue.comments) }}
+      {% endif %}
 
       <div class="issue-comment-new">
         <div class="issue-comment-wrapper">
@@ -253,6 +280,7 @@ endfor %}">
           <form id="issue-comment-form" class="dataset-form" method="post"
             data-module="basic-form"
             action="{{h.url_for('issues.comments', issue_number=issue.number, dataset_id=dataset.id)}}">
+            {% if comment_sort == 'oldest' %}<input type="hidden" name="sort" value="oldest">{% endif %}
             <div class="form-group control-full">
               <div class="controls editor">
                 <textarea class="form-control" id="comment" name="comment" cols="20" rows="5"
@@ -297,6 +325,10 @@ endfor %}">
           {% endif %}
         </div>
       </div>
+
+      {% if comment_sort == 'newest' %}
+        {{ comment_list(issue.comments|reverse|list) }}
+      {% endif %}
   </section>
 {% endblock %}
 

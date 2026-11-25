@@ -199,9 +199,13 @@ def comments(dataset_id, issue_number):
     except logic.NotAuthorized:
         p.toolkit.abort(403, _('Not authorized'))
 
+    # keep the reader's comment order (newest first is the default)
+    sort_params = ({'sort': 'oldest'}
+                   if request.form.get('sort') == 'oldest' else {})
     next_url = h.url_for('issues.show_issue',
                             dataset_id=g.pkg['name'],
-                            issue_number=issue_number)
+                            issue_number=issue_number,
+                            **sort_params)
 
     # TODO: (?) move validation somewhere better than controller
     comment = request.form.get('comment')
