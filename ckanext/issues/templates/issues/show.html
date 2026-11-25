@@ -34,14 +34,6 @@ dataset - package object
    chronologically. The original post always stays at the top. #}
 {% set comment_sort = 'oldest' if h.get_request_param('sort') == 'oldest' else 'newest' %}
 
-{%- macro comment_list(comments) %}
-  {% for comment in comments %}
-    {% if comment.visibility == 'visible' or can_edit_issue %}
-      {{ issue_comment(comment) }}
-    {% endif %}
-  {% endfor %}
-{% endmacro %}
-
 {%- macro issue_description(issue) %}
 <div class="issue-comment-wrapper">
   <a href="{{issue.user.ckan_url}}"
@@ -175,7 +167,7 @@ endfor %}">
       <div class="issue-header-text">
         <a href="{{issue_or_comment.user.ckan_url}}" class="author">{{ issue_or_comment.user.name}}</a>
         {{ _('commented on') }}
-        <time class="issue-comment-date" datetime="{{ h.render_datetime(issue_or_comment.created, '%Y-%m-%dT%H:%M:%S') }}">{{ h.render_datetime(issue_or_comment.created, with_hours=True) }}</time>
+        <time class="issue-comment-date" datetime="{{ h.render_datetime(issue_or_comment.created, '%Y-%m-%dT%H:%M:%S%z') }}">{{ h.render_datetime(issue_or_comment.created, '%-d %B %Y, %H:%M %Z') }}</time>
         <span class="issue-comment-time-ago">({{ h.time_ago_from_timestamp(issue_or_comment.created).lower() }})</span>
       </div>
     </div>
@@ -250,26 +242,6 @@ endfor %}">
 
       {{ issue_description(issue) }}
 
-      {% if comment_count > 1 %}
-      <div class="issue-comment-sort">
-        <span class="issue-comment-sort-label">{{ _('Sort comments:') }}</span>
-        <div class="btn-group btn-group-sm" role="group" aria-label="{{ _('Sort comments') }}">
-          <a href="{{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number) }}"
-             class="btn {{ 'btn-primary active' if comment_sort == 'newest' else 'btn-default' }}"
-             {% if comment_sort == 'newest' %}aria-current="true"{% endif %}>{{ _('Newest first') }}</a>
-          <a href="{{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, sort='oldest') }}"
-             class="btn {{ 'btn-primary active' if comment_sort == 'oldest' else 'btn-default' }}"
-             {% if comment_sort == 'oldest' %}aria-current="true"{% endif %}>{{ _('Oldest first') }}</a>
-        </div>
-      </div>
-      {% endif %}
-
-      {# Oldest first: reply box after the comments, as before. Newest first:
-         reply box above them, so a new comment lands right below it. #}
-      {% if comment_sort == 'oldest' %}
-        {{ comment_list(issue.comments) }}
-      {% endif %}
-
       <div class="issue-comment-new">
         <div class="issue-comment-wrapper">
           {% if g.user %}
@@ -326,9 +298,30 @@ endfor %}">
         </div>
       </div>
 
-      {% if comment_sort == 'newest' %}
-        {{ comment_list(issue.comments|reverse|list) }}
+      {# The reply box stays in one place (above the comments) whichever
+         order is chosen; the sort control sits right above the list it sorts. #}
+      {% if comment_count > 1 %}
+      <nav id="comments" class="issue-comment-sort" aria-label="{{ _('Sort comments') }}">
+        <span class="issue-comment-sort-label">{{ _('Sort comments:') }}</span>
+        <ul class="issue-comment-sort-options">
+          <li><a href="{{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, _anchor='comments') }}"
+                 class="issue-comment-sort-option{{ ' is-active' if comment_sort == 'newest' }}"
+                 {% if comment_sort == 'newest' %}aria-current="true"{% endif %}>{{ _('Newest first') }}</a></li>
+          <li><a href="{{ h.url_for('issues.show_issue', dataset_id=dataset.name, issue_number=issue.number, sort='oldest', _anchor='comments') }}"
+                 class="issue-comment-sort-option{{ ' is-active' if comment_sort == 'oldest' }}"
+                 {% if comment_sort == 'oldest' %}aria-current="true"{% endif %}>{{ _('Oldest first') }}</a></li>
+        </ul>
+      </nav>
       {% endif %}
+
+      <div class="issue-comments">
+        {% set sorted_comments = issue.comments|reverse|list if comment_sort == 'newest' else issue.comments %}
+        {% for comment in sorted_comments %}
+          {% if comment.visibility == 'visible' or can_edit_issue %}
+            {{ issue_comment(comment) }}
+          {% endif %}
+        {% endfor %}
+      </div>
   </section>
 {% endblock %}
 

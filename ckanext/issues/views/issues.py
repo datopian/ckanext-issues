@@ -138,7 +138,9 @@ def show_issue(issue_number, dataset_id):
     # passing the user object as well, because it is needed in the HTML
     user_issue = model.Session.query(model.User)\
         .filter(model.User.id==extra_vars['issue']['user_id']).first()
-    extra_vars['issue']['user'] = vars(user_issue)
+    # same shape as comment authors (ckan_url, gravatar, ...), so the
+    # original post links to its author and shows their avatar
+    extra_vars['issue']['user'] = issuemodel._user_dict(user_issue)
 
     return p.toolkit.render('issues/show.html', extra_vars=extra_vars)
 
